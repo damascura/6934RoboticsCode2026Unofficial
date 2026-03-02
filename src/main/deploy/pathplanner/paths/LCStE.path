@@ -1,0 +1,102 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.148243094,
+        "y": 7.019353183
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.988532888228812,
+        "y": 6.383527492251089
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.1361575178997616,
+        "y": 6.2868138424821
+      },
+      "prevControl": {
+        "x": 1.9360005581423465,
+        "y": 6.436604334372167
+      },
+      "nextControl": {
+        "x": 2.3495291024395524,
+        "y": 6.127133986021877
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.4502983293556087,
+        "y": 2.391467780429592
+      },
+      "prevControl": {
+        "x": 2.1596152920462925,
+        "y": 2.6692090464198244
+      },
+      "nextControl": {
+        "x": 2.9186350873000357,
+        "y": 1.9439822812230054
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.041945107398568,
+        "y": 1.7422434367541757
+      },
+      "prevControl": {
+        "x": 3.7780106617824383,
+        "y": 1.6685157293969923
+      },
+      "nextControl": {
+        "x": 4.503611738444689,
+        "y": 1.8712058470636277
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.214816077,
+        "y": 2.916594378
+      },
+      "prevControl": {
+        "x": 5.486992840095467,
+        "y": 2.2448687350835312
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.1,
+    "maxAcceleration": 2.1,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 119.99999999999999
+  },
+  "reversed": false,
+  "folder": "LCS to Reef",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -54.0
+  },
+  "useDefaultConstraints": true
+}
