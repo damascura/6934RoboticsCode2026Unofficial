@@ -38,17 +38,52 @@ public final class Constants {
     }
     //#endregion
 
+    public static final class Shooter {
+        
+        public static final int leaderMotorID = 10; // lower shooter motor
+        public static final int followerMotorID = 11; // upper shooter motor
+
+        public static final String canBus = "";
+        public static final boolean followerOpposesLeader = false;
+
+        public static final double targetRPS = 50; // 3000 RPM
+
+        public static final double kP = 0.18;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
+        public static final double kV = 0.12;
+
+        public static final NeutralModeValue neutralMode = NeutralModeValue.Coast;
+        public static final InvertedValue motorInvert = InvertedValue.Clockwise_Positive;
+    }
+
+    public static final class Loader {
+        public static final int feederMotorID = 9;
+        public static final int conveyorMotorID = 12;
+        public static final String canBus = "";
+
+        public static final double feederForwardVoltage = 6.0;
+        public static final double conveyorForwardVoltage = 6.0;
+        public static final double feederReverseVoltage = -2.0;
+        public static final double conveyorReverseVoltage = -.0;
+        public static final double reverseSeconds = 0.25;
+
+        public static final NeutralModeValue neutralMode = NeutralModeValue.Brake;
+        public static final InvertedValue feederInvert = InvertedValue.CounterClockwise_Positive;
+        public static final InvertedValue conveyorInvert = InvertedValue.Clockwise_Positive;
+    }
+
     public static final class Vision {
         /* Limelight Configs & Location */
         // TODO: set LL pos and rot
         public static final String limelightName = "limelight-scorps";
 
         public static final double limelightXPos = 0; // Meters, +x is right, -x is left
-        public static final double limelightYPos = 0; // Meters, +y is forward, -y is backward
-        public static final double limelightZPos = 0; // Meters, +z is up, -z is down
+        public static final double limelightYPos = 0.312; // Meters, +y is forward, -y is backward
+        public static final double limelightZPos = 0.263; // Meters, +z is up, -z is down
 
         public static final double limelightRoll = Units.degreesToRadians(0); // Radians, counterclockwise positive, rotation about x-axis
-        public static final double limelightPitch = Units.degreesToRadians(0); // Radians, tilted up is positive, down is negative
+        public static final double limelightPitch = Units.degreesToRadians(25); // Radians, tilted up is positive, down is negative
         public static final double limelightYaw = Units.degreesToRadians(0); // Radians, counterclockwise positive, rotation aobut z-axis
 
         public static final Transform3d limelightPositionOnBot = new Transform3d(
@@ -126,9 +161,9 @@ public final class Constants {
         public static final COTSTalonFXSwerveConstants chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 
         /* Drivetrain Constants */
-        public static final double robotSideLength = Units.inchesToMeters(28);
-        public static final double trackWidth = Units.inchesToMeters(22.75); 
-        public static final double wheelBase = Units.inchesToMeters(22.875); 
+        public static final double robotSideLength = Units.inchesToMeters(27);
+        public static final double trackWidth = Units.inchesToMeters(21.75); 
+        public static final double wheelBase = Units.inchesToMeters(21.75); 
         public static final double wheelCircumference = chosenModule.wheelCircumference;
 
         /* Swerve Kinematics 
@@ -235,10 +270,10 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double maxModuleSpeed = 4.5; // Max module speed, in m/s
+        public static final double maxModuleSpeed = 4.5; // max module speed, in m/s
         public static final double driveBaseRadius = (Swerve.robotSideLength / 2) * Math.sqrt(2);
         public static final PPHolonomicDriveController pathPlannerConfig = new PPHolonomicDriveController(
-            new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+            new PIDConstants(5.0, 0.0, 0.0), // translation PID constants
             new PIDConstants(5.0, 0.0, 0.0)
         );
     }

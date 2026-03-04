@@ -9,6 +9,10 @@ public final class CTREConfigs {
     public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
     public TalonFXConfiguration elevatorConfig = new TalonFXConfiguration();
     public TalonFXConfiguration climberConfig = new TalonFXConfiguration();
+    public TalonFXConfiguration shooterLeaderConfig = new TalonFXConfiguration();
+    public TalonFXConfiguration shooterFollowerConfig = new TalonFXConfiguration();
+    public TalonFXConfiguration loaderFeederConfig = new TalonFXConfiguration();
+    public TalonFXConfiguration loaderConveyorConfig = new TalonFXConfiguration();
 
 
     public CTREConfigs(){
@@ -61,5 +65,22 @@ public final class CTREConfigs {
 
         swerveDriveFXConfig.ClosedLoopRamps.DutyCycleClosedLoopRampPeriod = Constants.Swerve.closedLoopRamp;
         swerveDriveFXConfig.ClosedLoopRamps.VoltageClosedLoopRampPeriod = Constants.Swerve.closedLoopRamp;
+
+        /** Shooter Motor Configurations */
+        shooterLeaderConfig.MotorOutput.NeutralMode = Constants.Shooter.neutralMode;
+        shooterFollowerConfig.MotorOutput.NeutralMode = Constants.Shooter.neutralMode;
+        shooterLeaderConfig.MotorOutput.Inverted = Constants.Shooter.motorInvert;
+        shooterFollowerConfig.MotorOutput.Inverted = Constants.Shooter.motorInvert;
+
+        shooterLeaderConfig.Slot0.kP = Constants.Shooter.kP;
+        shooterLeaderConfig.Slot0.kI = Constants.Shooter.kI;
+        shooterLeaderConfig.Slot0.kD = Constants.Shooter.kD;
+        shooterLeaderConfig.Slot0.kV = Constants.Shooter.kV;
+
+        /** Loader Motor Configurations */
+        loaderFeederConfig.MotorOutput.NeutralMode = Constants.Loader.neutralMode;
+        loaderConveyorConfig.MotorOutput.NeutralMode = Constants.Loader.neutralMode;
+        loaderFeederConfig.MotorOutput.Inverted = Constants.Loader.feederInvert;
+        loaderConveyorConfig.MotorOutput.Inverted = Constants.Loader.conveyorInvert;
     }
 }

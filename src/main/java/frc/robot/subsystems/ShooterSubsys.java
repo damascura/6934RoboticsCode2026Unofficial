@@ -1,53 +1,47 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-
+import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.Constants.MotorOneConstants;
-import frc.robot.Constants.MotorTwoConstants;
+import org.littletonrobotics.junction.Logger;
 
 public class ShooterSubsys extends SubsystemBase {
-
-    private TalonFX motorOne;
-    private TalonFX motorTwo;
+    private final TalonFX leaderMotor;
+    private final TalonFX followerMotor;
+    private final VelocityVoltage velocityRequest = new VelocityVoltage(0);
 
     public ShooterSubsys() {
-        
-        motorOne = new TalonFX(0);
-        motorOne.getConfigurator().apply(Robot.ctreConfigs.motorOneConfig);
-        motorTwo = new TalonFX(11);
-        motorTwo.getConfigurator().apply(Robot.ctreConfigs.motorTwoConfig);
+        leaderMotor = new TalonFX(Constants.Shooter.leaderMotorID, Constants.Shooter.canBus);
+        followerMotor = new TalonFX(Constants.Shooter.followerMotorID, Constants.Shooter.canBus);
 
+        leaderMotor.getConfigurator().apply(Robot.ctreConfigs.shooterLeaderConfig);
+        followerMotor.getConfigurator().apply(Robot.ctreConfigs.shooterFollowerConfig);
+
+        MotorAlignmentValue alignment = Constants.Shooter.followerOpposesLeader
+            ? MotorAlignmentValue.Opposed
+            : MotorAlignmentValue.Aligned;
+        followerMotor.setControl(new Follower(leaderMotor.getDeviceID(), alignment));
     }
 
-    public void setMotorSpeed(double speedSup) {
-
-        motorOne.setVoltage(MotorOneConstants.maxVoltage * speedSup);
-        motorTwo.setVoltage(MotorTwoConstants.maxVoltage * speedSup);
-
+    public void runAtTargetRPS() {
+        leaderMotor.setControl(velocityRequest.withVelocity(Constants.Shooter.targetRPS));
     }
 
-    public double getMotorVelocityInRPS() {
-        
-        return motorOne.getVelocity().getValueAsDouble();
-
+    public void stop() {
+        leaderMotor.stopMotor();
     }
 
-    public double getMotorPosition() {
-
-        return motorOne.getPosition().getValueAsDouble();
-
-    }
-
-    public void brakeMotor() {
-
-        motorOne.setVoltage(0);
-        motorTwo.setVoltage(0);
-
+    public double getLeaderRPS() {
+        return leaderMotor.getVelocity().getValueAsDouble();
     }
 
     @Override
     public void periodic() {
+        Logger.recordOutput("Shooter/TargetRPS", Constants.Shooter.targetRPS);
+        Logger.recordOutput("Shooter/LeaderRPS", getLeaderRPS());
     }
 }
