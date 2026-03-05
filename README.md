@@ -9,13 +9,14 @@ The current[^1] 2025-2026 robotics code for FRC team 6934.
 - Started rudimentary shooter code <sup>3/2/26</sup>
 - Code now uses Elastic and AdvantageScope for telemetry, as SmartDashboard is deprecated in 2027 <sup>3/2/26</sup>
 - Vision system is now reworked; details below.<sup>3/2/26</sup>
-- Updated the LimelightHelpers file for FRC 2026 <sup>3/2/26</sup>
-- Upgraded hardware (Limelight 3G -> Limelight 4) <sup>3/2/26</sup>
-- Swerve.java now fuses odometry + gyro + LL4's MT2 spatial coordinate estimation every periodic <sup>3/2/26</sup>
-- Swerve.java now automatically pushes robot yaw and yaw rate from the Pigeon 2.0 -> Limelight with the LimelightHelpers method `SetRobotOrientation`, using `getBotPoseEstimate_wpiBlue_MegaTag2` to read as a vision measurement to a Pose2D object <sup>3/2/26</sup>
-- VisionInfo.java is no longer a giant hardcoded per-tag goalpoint lookup table, and now is a live helper layer that provides TX/TY, nearest tag distance from `rawFiducials`, tag yaw error from target-space pose, and pipeline selection (for easy LL tuning between pipelines, and testing for exposure length/black-white balance) <sup>3/2/26</sup>
-- New command `VisionAutoAlign` that forces the AprilTag pipeline and sets a LL 3D fiducial offset, where strafe PID drives TX to zero, yaw PID drives tag-rel yaw to zero, and forward PID drives to the nearest-tag distance stored as `autoAlignGoalDistanceMeters`. <sup>3/2/26</sup>
-
+- (!) Updated the LimelightHelpers file for FRC 2026 <sup>3/2/26</sup>
+- (!) Upgraded hardware (Limelight 3G -> Limelight 4) <sup>3/2/26</sup>
+- (!) Swerve.java now fuses odometry + gyro + LL4's MT2 spatial coordinate estimation every periodic <sup>3/2/26</sup>
+- (!) Swerve.java now automatically pushes robot yaw and yaw rate from the Pigeon 2.0 -> Limelight with the LimelightHelpers method `SetRobotOrientation`, using `getBotPoseEstimate_wpiBlue_MegaTag2` to read as a vision measurement to a Pose2D object <sup>3/2/26</sup>
+- (!) VisionInfo.java is no longer a giant hardcoded per-tag goalpoint lookup table, and now is a live helper layer that provides TX/TY, nearest tag distance from `rawFiducials`, tag yaw error from target-space pose, and pipeline selection (for easy LL tuning between pipelines, and testing for exposure length/black-white balance) <sup>3/2/26</sup>
+- (!) New command `VisionAutoAlign` that forces the AprilTag pipeline and sets a LL 3D fiducial offset, where strafe PID drives TX to zero, yaw PID drives tag-rel yaw to zero, and forward PID drives to the nearest-tag distance stored as `autoAlignGoalDistanceMeters`. <sup>3/2/26</sup>
+- Shooter is now functional; two X60s run the flywheels at a constant 3000 RPM using a PID controller.
+- Shooter complex is now functional; two X44s feed fuel using both 2.25 inch compliant wheels and conveyor belts. Holding B will feed any fuel into the shooter flywheels; releasing will reverse the direction for 0.25 seconds to prevent jams.
 
 ## Issues and Potential Errors:   
 - Vision code is still untested
@@ -44,10 +45,10 @@ The current[^1] 2025-2026 robotics code for FRC team 6934.
 
 | Name/Component | Offset (Degrees) |
 | :--- | :---: |
-| Swerve Module 0 | -108.45 |
-| Swerve Module 1 | 11.865 + 180 |
-| Swerve Module 2 | -31.7268 |
-| Swerve Module 3 | N/A (Replaced) |
+| Swerve Module 0 | 105.732422 |
+| Swerve Module 1 | 160.400391 + 180 |
+| Swerve Module 2 | -171.123047 |
+| Swerve Module 3 | 59.853516 + 180 |
 | CANivore Name | "Canivor<3" |
 
 ## Kraken Swerve Chassis Configs  
