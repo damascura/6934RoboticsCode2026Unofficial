@@ -1,6 +1,11 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringArrayPublisher;
@@ -14,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import frc.robot.Constants.QuickTuning;
@@ -26,10 +32,13 @@ import frc.robot.subsystems.Loader;
 import frc.robot.subsystems.ShooterSubsys;
 import frc.robot.subsystems.Swerve;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import org.littletonrobotics.junction.Logger;
 
 public class RobotContainer {
     private static final List<String> elasticAutoOptions = List.of("DoNothing");
+    private int activePathfindingCommandCount = 0;
 
     /* Controllers */
     private final Joystick driver = new Joystick(QuickTuning.driveControllerID);
@@ -44,6 +53,9 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton toggleSlowMode = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
+    private final JoystickButton driveToTagPrimary = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton driveToTagSecondary = new JoystickButton(driver, XboxController.Button.kStart.value);
+    private final JoystickButton driveToTagTertiary = new JoystickButton(driver, XboxController.Button.kBack.value);
 
     private final JoystickButton autoAlignCenter = new JoystickButton(weapons, XboxController.Button.kA.value);
     private final JoystickButton autoAlignLeft = new JoystickButton(weapons, XboxController.Button.kX.value);
@@ -62,6 +74,9 @@ public class RobotContainer {
     private final Swerve s_Swerve = new Swerve();
     private final ShooterSubsys s_Shooter = new ShooterSubsys();
     private final Loader s_Loader = new Loader();
+    private final Command driveToTagPrimaryCommand = createDriveToTagPathCommand(Vision.driveToTagPrimaryTagId, "Primary");
+    private final Command driveToTagSecondaryCommand = createDriveToTagPathCommand(Vision.driveToTagSecondaryTagId, "Secondary");
+    private final Command driveToTagTertiaryCommand = createDriveToTagPathCommand(Vision.driveToTagTertiaryTagId, "Tertiary");
 
     public RobotContainer() {
         NetworkTable elasticTable = NetworkTableInstance.getDefault().getTable("Elastic");
@@ -90,6 +105,8 @@ public class RobotContainer {
     }
 
     private void registerStatusSendables() {
+        SmartDashboard.putBoolean("Pathfinding Active", false);
+
         SmartDashboard.putData("Vision Status", new Sendable() {
             @Override
             public void initSendable(SendableBuilder builder) {
@@ -104,11 +121,16 @@ public class RobotContainer {
                 builder.setSmartDashboardType("RobotPreferences");
                 builder.addBooleanProperty("Autonomous Enabled", DriverStation::isAutonomousEnabled, null);
                 builder.addBooleanProperty("AutoAlign Active", VisionAutoAlign::isAnyAutoAlignActive, null);
+                builder.addBooleanProperty("Pathfinding Active", this::isPathfindingActive, null);
                 builder.addBooleanProperty(
                     "Autonomous Or AutoAlign",
-                    () -> DriverStation.isAutonomousEnabled() || VisionAutoAlign.isAnyAutoAlignActive(),
+                    () -> DriverStation.isAutonomousEnabled() || VisionAutoAlign.isAnyAutoAlignActive() || isPathfindingActive(),
                     null
                 );
+            }
+
+            private boolean isPathfindingActive() {
+                return activePathfindingCommandCount > 0;
             }
         });
     }
@@ -128,6 +150,9 @@ public class RobotContainer {
         autoAlignCenter.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignCenterOffsetX));
         autoAlignLeft.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignLeftOffsetX));
         autoAlignRight.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignRightOffsetX));
+        driveToTagPrimary.whileTrue(driveToTagPrimaryCommand);
+        driveToTagSecondary.whileTrue(driveToTagSecondaryCommand);
+        driveToTagTertiary.whileTrue(driveToTagTertiaryCommand);
         shoot.whileTrue(new Shoot(s_Shooter));
         load.whileTrue(new Load(s_Loader));
         load.onFalse(Commands.startEnd(s_Loader::runReverse, s_Loader::stop, s_Loader)
@@ -153,5 +178,53 @@ public class RobotContainer {
             Logger.recordOutput("Elastic/Auto/LoadError", "Failed to load auto: " + selectedAuto);
             return null;
         }
+    }
+
+    private Command createDriveToTagPathCommand(int tagId, String slotName) {
+        return Commands.defer(() -> {
+            Optional<edu.wpi.first.math.geometry.Pose3d> maybeTagPose =
+                Vision.fieldLayout.getTagPose(tagId);
+
+            if (maybeTagPose.isEmpty()) {
+                Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/HasTagPose", false);
+                Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/TagId", tagId);
+                return Commands.none();
+            }
+
+            Pose2d tagPose2d = maybeTagPose.get().toPose2d();
+            Pose2d targetPose = tagPose2d.transformBy(new Transform2d(
+                Vision.driveToTagFrontOffsetMeters,
+                0.0,
+                new Rotation2d()
+            ));
+            Rotation2d targetHeading = tagPose2d.getRotation().plus(Rotation2d.fromDegrees(180));
+            targetPose = new Pose2d(targetPose.getTranslation(), targetHeading);
+
+            PathConstraints constraints = new PathConstraints(
+                Vision.driveToTagPathMaxVelocityMPS,
+                Vision.driveToTagPathMaxAccelerationMPSSq,
+                Vision.driveToTagPathMaxAngularVelocityRadPerSec,
+                Vision.driveToTagPathMaxAngularAccelerationRadPerSecSq
+            );
+
+            Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/HasTagPose", true);
+            Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/TagId", tagId);
+            Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/TargetPose", targetPose);
+            return AutoBuilder.pathfindToPose(targetPose, constraints, Vision.driveToTagPathGoalEndVelocityMPS);
+        }, Set.<Subsystem>of(s_Swerve))
+            .beforeStarting(() -> setPathfindingActive(true))
+            .finallyDo(_interrupted -> setPathfindingActive(false));
+    }
+
+    private void setPathfindingActive(boolean active) {
+        if (active) {
+            activePathfindingCommandCount++;
+        } else {
+            activePathfindingCommandCount = Math.max(0, activePathfindingCommandCount - 1);
+        }
+
+        boolean isActive = activePathfindingCommandCount > 0;
+        SmartDashboard.putBoolean("Pathfinding Active", isActive);
+        Logger.recordOutput("Pathfinding Active", isActive);
     }
 }

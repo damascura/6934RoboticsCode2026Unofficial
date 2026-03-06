@@ -3,6 +3,7 @@ package frc.robot;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.ctre.phoenix6.CANBus;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -44,6 +45,7 @@ public final class Constants {
         public static final int followerMotorID = 11; // upper shooter motor
 
         public static final String canBus = "";
+        public static final CANBus canBusRef = new CANBus(canBus);
         public static final boolean followerOpposesLeader = false;
 
         public static final double targetRPS = 50; // 3000 RPM
@@ -61,6 +63,7 @@ public final class Constants {
         public static final int feederMotorID = 9;
         public static final int conveyorMotorID = 12;
         public static final String canBus = "";
+        public static final CANBus canBusRef = new CANBus(canBus);
 
         public static final double feederForwardVoltage = 6.0;
         public static final double conveyorForwardVoltage = 6.0;
@@ -112,23 +115,25 @@ public final class Constants {
 
         public static final double autoAlignGoalDistanceMeters = 0.8;
         public static final double autoAlignDistanceToleranceMeters = 0.08;
-        public static final double autoAlignYawToleranceDegrees = 3.0;
+        public static final double autoAlignYawToleranceDegrees = 4.0;
 
-        public static final double autoAlignForwardkP = 1.2;
-        public static final double autoAlignForwardkI = 0.0;
-        public static final double autoAlignForwardkD = 0.0;
+        public static final double autoAlignForwardkP = 0.9;
+        public static final double autoAlignForwardkI = 0.01;
+        public static final double autoAlignForwardkD = 0.01;
 
-        public static final double autoAlignStrafekP = 0.05;
-        public static final double autoAlignStrafekI = 0.0;
-        public static final double autoAlignStrafekD = 0.0;
+        public static final double autoAlignStrafekP = 0.035;
+        public static final double autoAlignStrafekI = 0.001;
+        public static final double autoAlignStrafekD = 0.001;
 
-        public static final double autoAlignYawkP = 0.015;
+        public static final double autoAlignYawkP = 0.008;
         public static final double autoAlignYawkI = 0.0;
         public static final double autoAlignYawkD = 0.0;
 
-        public static final double autoAlignMaxForwardPercent = 0.35;
-        public static final double autoAlignMaxStrafePercent = 0.35;
-        public static final double autoAlignMaxYawPercent = 0.35;
+        public static final double autoAlignMaxForwardPercent = 0.75;
+        public static final double autoAlignMaxStrafePercent = 0.75;
+        public static final double autoAlignMaxYawPercent = 0.2;
+        public static final double autoAlignMinForwardPercent = 0.12;
+        public static final double autoAlignMinStrafePercent = 0.04;
 
         public static final double autoAlignForwardDirection = -1.0;
         public static final double autoAlignStrafeDirection = 1.0;
@@ -140,14 +145,42 @@ public final class Constants {
         public static final double autoAlignOffsetY = 0.0;
         public static final double autoAlignOffsetZ = 0.0;
 
+        public static final int driveToTagPrimaryTagId = 13;
+        public static final int driveToTagSecondaryTagId = 12;
+        public static final int driveToTagTertiaryTagId = 16;
+        public static final double driveToTagFrontOffsetMeters = 1.5;
+        public static final double driveToTagTranslationToleranceMeters = 0.08;
+        public static final double driveToTagYawToleranceDegrees = 3.0;
+
+        public static final double driveToTagXkP = 1.2;
+        public static final double driveToTagXkI = 0.0;
+        public static final double driveToTagXkD = 0.0;
+
+        public static final double driveToTagYkP = 1.2;
+        public static final double driveToTagYkI = 0.0;
+        public static final double driveToTagYkD = 0.0;
+
+        public static final double driveToTagYawkP = 0.02;
+        public static final double driveToTagYawkI = 0.0;
+        public static final double driveToTagYawkD = 0.0;
+
+        public static final double driveToTagMaxTranslationMetersPerSecond = 2.0;
+        public static final double driveToTagMaxYawRadiansPerSecond = 2.5;
+        public static final double driveToTagPathMaxVelocityMPS = 3.5;
+        public static final double driveToTagPathMaxAccelerationMPSSq = 3.0;
+        public static final double driveToTagPathMaxAngularVelocityRadPerSec = 2.5 * Math.PI;
+        public static final double driveToTagPathMaxAngularAccelerationRadPerSecSq = 4.0 * Math.PI;
+        public static final double driveToTagPathGoalEndVelocityMPS = 0.0;
+
         public static final double maxVisionYawRateForMegatag = 540.0;
         public static final int minVisionTagCountForMegatag = 1;
         public static final double maxVisionAvgTagDistMeters = 4.5;
-        public static final double minVisionAvgTagArea = 0.02;
+        public static final double minVisionAvgTagArea = 0.0;
         public static final double maxVisionFiducialAmbiguity = 0.7;
 
         public static final double visionStdDevXYMin = 0.15;
         public static final double visionStdDevXYMax = 2.0;
+        public static final double visionStdDevYawDegrees = 6.0;
 
 
         /* AprilTag Game Field Layout Loading */
@@ -157,6 +190,7 @@ public final class Constants {
     public static final class Swerve {
         public static final int pigeonID = 1;
         public static final String canivoreName = "Second CANivor<3";
+        public static final CANBus canBus = new CANBus(canivoreName);
 
         public static final COTSTalonFXSwerveConstants chosenModule = COTSTalonFXSwerveConstants.SDS.MK4i.Falcon500(COTSTalonFXSwerveConstants.SDS.MK4i.driveRatios.L2);
 

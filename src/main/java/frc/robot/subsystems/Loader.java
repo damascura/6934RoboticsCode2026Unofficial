@@ -12,8 +12,8 @@ public class Loader extends SubsystemBase {
     private final VoltageOut voltageRequest = new VoltageOut(0);
 
     public Loader() {
-        feederMotor = new TalonFX(Constants.Loader.feederMotorID, Constants.Loader.canBus);
-        conveyorMotor = new TalonFX(Constants.Loader.conveyorMotorID, Constants.Loader.canBus);
+        feederMotor = new TalonFX(Constants.Loader.feederMotorID, Constants.Loader.canBusRef);
+        conveyorMotor = new TalonFX(Constants.Loader.conveyorMotorID, Constants.Loader.canBusRef);
 
         feederMotor.getConfigurator().apply(Robot.ctreConfigs.loaderFeederConfig);
         conveyorMotor.getConfigurator().apply(Robot.ctreConfigs.loaderConveyorConfig);

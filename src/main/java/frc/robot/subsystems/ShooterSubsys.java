@@ -15,8 +15,8 @@ public class ShooterSubsys extends SubsystemBase {
     private final VelocityVoltage velocityRequest = new VelocityVoltage(0);
 
     public ShooterSubsys() {
-        leaderMotor = new TalonFX(Constants.Shooter.leaderMotorID, Constants.Shooter.canBus);
-        followerMotor = new TalonFX(Constants.Shooter.followerMotorID, Constants.Shooter.canBus);
+        leaderMotor = new TalonFX(Constants.Shooter.leaderMotorID, Constants.Shooter.canBusRef);
+        followerMotor = new TalonFX(Constants.Shooter.followerMotorID, Constants.Shooter.canBusRef);
 
         leaderMotor.getConfigurator().apply(Robot.ctreConfigs.shooterLeaderConfig);
         followerMotor.getConfigurator().apply(Robot.ctreConfigs.shooterFollowerConfig);

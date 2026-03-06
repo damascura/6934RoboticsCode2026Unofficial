@@ -126,6 +126,7 @@ public final class VisionInfo {
      * @param estimatedYaw Estimated robot yaw in degrees
      */
     public static void updateDashboardValues(double estimatedX, double estimatedY, double estimatedYaw) {
+        Logger.recordOutput("Vision/ValidAprilTagDetected", hasValidTargets());
         Logger.recordOutput("Vision/HasTarget", willTarget());
         Logger.recordOutput("Vision/EstimatedPose/XMeters", estimatedX);
         Logger.recordOutput("Vision/EstimatedPose/YMeters", estimatedY);

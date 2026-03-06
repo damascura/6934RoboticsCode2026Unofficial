@@ -2,7 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Constants.Vision;
@@ -20,10 +23,11 @@ public class VisionAutoAlign extends Command {
         Vision.autoAlignForwardkI,
         Vision.autoAlignForwardkD
     );
-    private final PIDController strafeController = new PIDController(
+    private final ProfiledPIDController strafeController = new ProfiledPIDController(
         Vision.autoAlignStrafekP,
         Vision.autoAlignStrafekI,
-        Vision.autoAlignStrafekD
+        Vision.autoAlignStrafekD,
+        new TrapezoidProfile.Constraints(Vision.TXMaxSpeed, Vision.TXMaxAcceleration)
     );
     private final PIDController yawController = new PIDController(
         Vision.autoAlignYawkP,
@@ -48,11 +52,11 @@ public class VisionAutoAlign extends Command {
         VisionInfo.setFiducialOffsetX(targetOffsetXMeters);
 
         forwardController.setTolerance(Vision.autoAlignDistanceToleranceMeters);
-        strafeController.setTolerance(Vision.TXTolerance);
+        strafeController.setTolerance(Units.degreesToRotations(Vision.TXTolerance));
         yawController.setTolerance(Vision.autoAlignYawToleranceDegrees);
 
         forwardController.reset();
-        strafeController.reset();
+        strafeController.reset(Units.degreesToRotations(VisionInfo.getTX(false)));
         yawController.reset();
     }
 
@@ -63,7 +67,10 @@ public class VisionAutoAlign extends Command {
         double yawPercent = 0;
 
         if (VisionInfo.willTarget()) {
-            strafePercent = strafeController.calculate(VisionInfo.getTX(false), 0) * Vision.autoAlignStrafeDirection;
+            strafePercent = strafeController.calculate(
+                Units.degreesToRotations(VisionInfo.getTX(false)),
+                0
+            ) * Vision.autoAlignStrafeDirection;
             yawPercent = yawController.calculate(VisionInfo.getTagYawErrorDegrees(), 0) * Vision.autoAlignYawDirection;
 
             double tagDistance = VisionInfo.getNearestTagDistanceMeters();
@@ -80,6 +87,23 @@ public class VisionAutoAlign extends Command {
         forwardPercent = MathUtil.clamp(forwardPercent, -Vision.autoAlignMaxForwardPercent, Vision.autoAlignMaxForwardPercent);
         strafePercent = MathUtil.clamp(strafePercent, -Vision.autoAlignMaxStrafePercent, Vision.autoAlignMaxStrafePercent);
         yawPercent = MathUtil.clamp(yawPercent, -Vision.autoAlignMaxYawPercent, Vision.autoAlignMaxYawPercent);
+
+        double tagDistance = VisionInfo.getNearestTagDistanceMeters();
+        if (!Double.isNaN(tagDistance)) {
+            double distanceError = tagDistance - Vision.autoAlignGoalDistanceMeters;
+            forwardPercent = enforceMinimumOutput(
+                forwardPercent,
+                distanceError,
+                Vision.autoAlignDistanceToleranceMeters,
+                Vision.autoAlignMinForwardPercent
+            );
+        }
+        strafePercent = enforceMinimumOutput(
+            strafePercent,
+            VisionInfo.getTX(false),
+            Vision.TXTolerance,
+            Vision.autoAlignMinStrafePercent
+        );
 
         s_Swerve.drive(
             new Translation2d(forwardPercent, strafePercent).times(Constants.Swerve.maxSpeed),
@@ -99,5 +123,12 @@ public class VisionAutoAlign extends Command {
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    private double enforceMinimumOutput(double output, double error, double tolerance, double minMagnitude) {
+        if (Math.abs(error) <= tolerance || Math.abs(output) < 1e-6) {
+            return output;
+        }
+        return Math.copySign(Math.max(Math.abs(output), minMagnitude), output);
     }
 }

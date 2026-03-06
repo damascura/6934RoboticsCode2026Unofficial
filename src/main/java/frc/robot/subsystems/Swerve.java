@@ -41,7 +41,7 @@ public class Swerve extends SubsystemBase {
     private final Field2d field2d = new Field2d();
 
     public Swerve() {
-        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.canivoreName);
+        gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.canBus);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
         gyro.setYaw(0);
 
@@ -271,6 +271,11 @@ public class Swerve extends SubsystemBase {
         boolean acceptVisionFrame = hasEstimate && validTargets && spinRateOk && tagCountOk && avgDistOk && avgAreaOk && ambiguityOk;
 
         Logger.recordOutput("Vision/MegaTag2/Accepted", acceptVisionFrame);
+        Logger.recordOutput("Vision/MegaTag2/HasEstimate", hasEstimate);
+        Logger.recordOutput("Vision/MegaTag2/ValidTargets", validTargets);
+        Logger.recordOutput("Vision/MegaTag2/TagCountOk", tagCountOk);
+        Logger.recordOutput("Vision/MegaTag2/AvgDistOk", avgDistOk);
+        Logger.recordOutput("Vision/MegaTag2/AvgAreaOk", avgAreaOk);
         Logger.recordOutput("Vision/MegaTag2/TagCount", hasEstimate ? megaTag2Estimation.tagCount : -1);
         Logger.recordOutput("Vision/MegaTag2/AvgTagDistMeters", hasEstimate ? megaTag2Estimation.avgTagDist : -1);
         Logger.recordOutput("Vision/MegaTag2/AvgTagArea", hasEstimate ? megaTag2Estimation.avgTagArea : -1);
@@ -279,7 +284,9 @@ public class Swerve extends SubsystemBase {
 
         if (acceptVisionFrame) {
             double xyStdDev = computeVisionXYStdDev(megaTag2Estimation);
-            swervePoseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(xyStdDev, xyStdDev, 9999999));
+            swervePoseEstimator.setVisionMeasurementStdDevs(
+                VecBuilder.fill(xyStdDev, xyStdDev, Units.degreesToRadians(Constants.Vision.visionStdDevYawDegrees))
+            );
             swervePoseEstimator.addVisionMeasurement(megaTag2Estimation.pose, megaTag2Estimation.timestampSeconds);
             Logger.recordOutput("Vision/MegaTag2/XYStdDev", xyStdDev);
         }
@@ -335,6 +342,7 @@ public class Swerve extends SubsystemBase {
             swervePoseEstimator.getEstimatedPosition().getY(),
             swervePoseEstimator.getEstimatedPosition().getRotation().getDegrees()
         );
+        SmartDashboard.putBoolean("Vision Status/Valid AprilTag Detected", VisionInfo.hasValidTargets());
 
         Logger.recordOutput("Swerve/States/Desired", desiredModuleStates);
         Logger.recordOutput("Swerve/States/Measured", getModuleStates());
