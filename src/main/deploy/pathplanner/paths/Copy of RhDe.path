@@ -1,0 +1,88 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 13.0,
+        "y": 4.034
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 12.937545724631379,
+        "y": 3.695336115877514
+      },
+      "isLocked": false,
+      "linkedName": "RedHubStart"
+    },
+    {
+      "anchor": {
+        "x": 15.899831081081082,
+        "y": 2.1249887387387387
+      },
+      "prevControl": {
+        "x": 15.307584701947915,
+        "y": 2.158874815625035
+      },
+      "nextControl": {
+        "x": 16.80482335698035,
+        "y": 2.0732085355612844
+      },
+      "isLocked": false,
+      "linkedName": "RedDepotInner"
+    },
+    {
+      "anchor": {
+        "x": 15.409560810810813,
+        "y": 2.1249887387387387
+      },
+      "prevControl": {
+        "x": 16.860600493693564,
+        "y": 2.2385776337516896
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RedDepotFront"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 180.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Toggle Intake Pivot",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Run Intake Rollers",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 0,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.75,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Red Hub",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 13.0,
+        "y": 4.034
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 12.976659292063676,
+        "y": 3.785091962056202
+      },
+      "isLocked": false,
+      "linkedName": "RedHubStart"
+    },
+    {
+      "anchor": {
+        "x": 16.104110360360362,
+        "y": 7.38518018018018
+      },
+      "prevControl": {
+        "x": 16.268687468039644,
+        "y": 7.573367256324962
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RedOutpost"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.75,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "Red Hub",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

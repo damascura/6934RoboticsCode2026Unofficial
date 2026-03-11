@@ -1,0 +1,293 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 13.0,
+        "y": 4.034
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 13.420257138769287,
+        "y": 3.7904415832345917
+      },
+      "isLocked": false,
+      "linkedName": "RedHubStart"
+    },
+    {
+      "anchor": {
+        "x": 13.131846846846848,
+        "y": 5.567
+      },
+      "prevControl": {
+        "x": 13.942812612756951,
+        "y": 4.895221915756483
+      },
+      "nextControl": {
+        "x": 12.905438284080837,
+        "y": 5.754549606832774
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 11.916385135135135,
+        "y": 5.567
+      },
+      "prevControl": {
+        "x": 12.323263532705917,
+        "y": 5.712505977459913
+      },
+      "nextControl": {
+        "x": 11.473290140524629,
+        "y": 5.408542410009171
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 10.782635135135136,
+        "y": 5.5503572
+      },
+      "prevControl": {
+        "x": 11.117703011449496,
+        "y": 5.461126412563644
+      },
+      "nextControl": {
+        "x": 10.080599323788054,
+        "y": 5.737313971099862
+      },
+      "isLocked": false,
+      "linkedName": "RedRightBumpNZ"
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 6.864268018018018
+      },
+      "prevControl": {
+        "x": 9.273905891070982,
+        "y": 7.472184439663994
+      },
+      "nextControl": {
+        "x": 8.586860059931533,
+        "y": 6.6748822076488565
+      },
+      "isLocked": false,
+      "linkedName": "RedRightNeutralIntakeStart"
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 5.996081081081082
+      },
+      "prevControl": {
+        "x": 8.691584079127054,
+        "y": 6.263475105278975
+      },
+      "nextControl": {
+        "x": 8.834731478634355,
+        "y": 5.608860751521274
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 5.158536036036037
+      },
+      "prevControl": {
+        "x": 8.531896869254307,
+        "y": 5.411715526393231
+      },
+      "nextControl": {
+        "x": 9.314786847273485,
+        "y": 4.503152099941939
+      },
+      "isLocked": false,
+      "linkedName": "RedRightNeutralIntakeEnd"
+    },
+    {
+      "anchor": {
+        "x": 10.782635135135136,
+        "y": 5.5503572
+      },
+      "prevControl": {
+        "x": 10.169403013410763,
+        "y": 5.290047800542983
+      },
+      "nextControl": {
+        "x": 11.340213162303279,
+        "y": 5.787042129345243
+      },
+      "isLocked": false,
+      "linkedName": "RedRightBumpNZ"
+    },
+    {
+      "anchor": {
+        "x": 11.916385135135135,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 11.618709179111734,
+        "y": 5.6688191612556205
+      },
+      "nextControl": {
+        "x": 12.619741213974404,
+        "y": 5.269251159992397
+      },
+      "isLocked": false,
+      "linkedName": "RedRightBumpApex"
+    },
+    {
+      "anchor": {
+        "x": 13.131846846846848,
+        "y": 5.567094594594595
+      },
+      "prevControl": {
+        "x": 12.87713249789332,
+        "y": 5.5871964620111605
+      },
+      "nextControl": {
+        "x": 14.266994849602836,
+        "y": 5.4775095565183
+      },
+      "isLocked": false,
+      "linkedName": "RedRightBumpAZ"
+    },
+    {
+      "anchor": {
+        "x": 14.000033783783785,
+        "y": 5.567094594594595
+      },
+      "prevControl": {
+        "x": 13.507942495080536,
+        "y": 5.45377363950716
+      },
+      "nextControl": {
+        "x": 14.389786048739241,
+        "y": 5.656848467353918
+      },
+      "isLocked": false,
+      "linkedName": "RedRightBumpShoot"
+    },
+    {
+      "anchor": {
+        "x": 13.131846846846848,
+        "y": 5.567094594594595
+      },
+      "prevControl": {
+        "x": 13.370515139259298,
+        "y": 5.4926805757747195
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RedRightBumpAZ"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": -45.0
+    },
+    {
+      "waypointRelativePos": 3.0,
+      "rotationDegrees": -45.0
+    },
+    {
+      "waypointRelativePos": 4.0,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 6.0,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 7.0,
+      "rotationDegrees": -135.0
+    },
+    {
+      "waypointRelativePos": 9.001209189842811,
+      "rotationDegrees": -135.0
+    },
+    {
+      "waypointRelativePos": 11,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 9.014705882352944,
+      "maxWaypointRelativePos": 11.0,
+      "constraints": {
+        "maxVelocity": 0.5,
+        "maxAcceleration": 3.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 11.911,
+        "y": 4.034
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 9.0,
+      "maxWaypointRelativePos": 11.0,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Toggle Intake Pivot",
+      "waypointRelativePos": 3.288770053475935,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Run Intake Rollers",
+      "waypointRelativePos": 3.9893048128342294,
+      "endWaypointRelativePos": 6.577540106951879,
+      "command": null
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 8.264705882352938,
+      "endWaypointRelativePos": 10.838235294117652,
+      "command": null
+    },
+    {
+      "name": "Load",
+      "waypointRelativePos": 9.014705882352951,
+      "endWaypointRelativePos": 11.0,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.75,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0.5,
+    "rotation": -46.36392753160298
+  },
+  "reversed": false,
+  "folder": "Red Hub",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}

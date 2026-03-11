@@ -1,0 +1,545 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.54,
+        "y": 4.034
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.540000000000003,
+        "y": 4.034
+      },
+      "isLocked": true,
+      "linkedName": "BlueHubStart"
+    },
+    {
+      "anchor": {
+        "x": 3.54,
+        "y": 2.518
+      },
+      "prevControl": {
+        "x": 3.1209441929976514,
+        "y": 4.676671190795181
+      },
+      "nextControl": {
+        "x": 3.9590558070023487,
+        "y": 0.3593288092048188
+      },
+      "isLocked": true,
+      "linkedName": "BlueRightBumpAZ"
+    },
+    {
+      "anchor": {
+        "x": 3.48,
+        "y": 5.5503572
+      },
+      "prevControl": {
+        "x": 3.694809435032706,
+        "y": 2.9464743073051114
+      },
+      "nextControl": {
+        "x": 3.265190564967294,
+        "y": 8.154240092694888
+      },
+      "isLocked": true,
+      "linkedName": "BlueLeftBumpAZ"
+    },
+    {
+      "anchor": {
+        "x": 0.4256756756756762,
+        "y": 0.6541779279279285
+      },
+      "prevControl": {
+        "x": 1.5951910032043704,
+        "y": 1.7434713976987941
+      },
+      "nextControl": {
+        "x": -0.7438396518530174,
+        "y": -0.4351155418429371
+      },
+      "isLocked": true,
+      "linkedName": "BlueOutpost"
+    },
+    {
+      "anchor": {
+        "x": 0.4256756756756762,
+        "y": 5.015540540540541
+      },
+      "prevControl": {
+        "x": -0.7412779340346164,
+        "y": 2.004221508357811
+      },
+      "nextControl": {
+        "x": 1.5926292853859687,
+        "y": 8.026859572723271
+      },
+      "isLocked": true,
+      "linkedName": "BlueDepotRight"
+    },
+    {
+      "anchor": {
+        "x": 0.4256756756756762,
+        "y": 6.925551801801801
+      },
+      "prevControl": {
+        "x": 0.9376547327830745,
+        "y": 7.527275507082356
+      },
+      "nextControl": {
+        "x": -0.08630338143172223,
+        "y": 6.323828096521247
+      },
+      "isLocked": true,
+      "linkedName": "BlueDepotLeft"
+    },
+    {
+      "anchor": {
+        "x": 1.1304391891891896,
+        "y": 5.955225225225226
+      },
+      "prevControl": {
+        "x": 0.3688584444192742,
+        "y": 6.1497406248372
+      },
+      "nextControl": {
+        "x": 1.892019933959105,
+        "y": 5.760709825613251
+      },
+      "isLocked": true,
+      "linkedName": "BlueDepotFront"
+    },
+    {
+      "anchor": {
+        "x": 0.6605968468468475,
+        "y": 5.955225225225226
+      },
+      "prevControl": {
+        "x": 0.6787914985110846,
+        "y": 5.505585768662482
+      },
+      "nextControl": {
+        "x": 0.6424021951826104,
+        "y": 6.404864681787969
+      },
+      "isLocked": true,
+      "linkedName": "BlueDepotInner"
+    },
+    {
+      "anchor": {
+        "x": 5.747150900900902,
+        "y": 5.5503572
+      },
+      "prevControl": {
+        "x": 4.078284430924639,
+        "y": 5.913065441794886
+      },
+      "nextControl": {
+        "x": 7.416017370877165,
+        "y": 5.187648958205114
+      },
+      "isLocked": true,
+      "linkedName": "BlueLeftBumpNZ"
+    },
+    {
+      "anchor": {
+        "x": 5.747150900900902,
+        "y": 2.518
+      },
+      "prevControl": {
+        "x": 6.622439991744889,
+        "y": 3.7480181727962503
+      },
+      "nextControl": {
+        "x": 4.871861810056915,
+        "y": 1.2879818272037495
+      },
+      "isLocked": true,
+      "linkedName": "BlueRightBumpNZ"
+    },
+    {
+      "anchor": {
+        "x": 7.800157657657657,
+        "y": 1.1240202702702708
+      },
+      "prevControl": {
+        "x": 6.81095905818161,
+        "y": 0.8536192919802534
+      },
+      "nextControl": {
+        "x": 8.789356257133704,
+        "y": 1.3944212485602883
+      },
+      "isLocked": true,
+      "linkedName": "BlueRightNeutralIntakeStart"
+    },
+    {
+      "anchor": {
+        "x": 7.800157657657657,
+        "y": 2.9216779279279286
+      },
+      "prevControl": {
+        "x": 8.713529479918199,
+        "y": 2.1682635522080727
+      },
+      "nextControl": {
+        "x": 6.886785835397115,
+        "y": 3.675092303647785
+      },
+      "isLocked": true,
+      "linkedName": "BlueRightNeutralIntakeEnd"
+    },
+    {
+      "anchor": {
+        "x": 7.800157657657657,
+        "y": 5.158536036036037
+      },
+      "prevControl": {
+        "x": 7.374113638419277,
+        "y": 4.912191422094163
+      },
+      "nextControl": {
+        "x": 8.226201676896036,
+        "y": 5.404880649977911
+      },
+      "isLocked": true,
+      "linkedName": "BlueLeftNeutralIntakeEnd"
+    },
+    {
+      "anchor": {
+        "x": 7.800157657657657,
+        "y": 6.925551801801801
+      },
+      "prevControl": {
+        "x": 8.237886874484053,
+        "y": 5.940509018682648
+      },
+      "nextControl": {
+        "x": 7.362428440831261,
+        "y": 7.910594584920955
+      },
+      "isLocked": true,
+      "linkedName": "BlueLeftNeutralIntakeStart"
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 6.864268018018018
+      },
+      "prevControl": {
+        "x": 8.091991247442659,
+        "y": 7.412966211379397
+      },
+      "nextControl": {
+        "x": 9.408121365169956,
+        "y": 6.31556982465664
+      },
+      "isLocked": true,
+      "linkedName": "RedRightNeutralIntakeStart"
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 5.158536036036037
+      },
+      "prevControl": {
+        "x": 8.859488610512907,
+        "y": 6.069006759175167
+      },
+      "nextControl": {
+        "x": 8.640624002099708,
+        "y": 4.248065312896907
+      },
+      "isLocked": true,
+      "linkedName": "RedRightNeutralIntakeEnd"
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 2.9216779279279286
+      },
+      "prevControl": {
+        "x": 8.644270334383188,
+        "y": 3.4929459447367424
+      },
+      "nextControl": {
+        "x": 8.855842278229426,
+        "y": 2.350409911119115
+      },
+      "isLocked": true,
+      "linkedName": "RedLeftNeutralIntakeEnd"
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 1.1240202702702708
+      },
+      "prevControl": {
+        "x": 8.813163256231832,
+        "y": 1.36951238799199
+      },
+      "nextControl": {
+        "x": 8.686949356380783,
+        "y": 0.8785281525485518
+      },
+      "isLocked": true,
+      "linkedName": "RedLeftNeutralIntakeStart"
+    },
+    {
+      "anchor": {
+        "x": 4.625,
+        "y": 5.567094594594595
+      },
+      "prevControl": {
+        "x": 6.682202155667868,
+        "y": 3.365806869067069
+      },
+      "nextControl": {
+        "x": 2.567797844332132,
+        "y": 7.768382320122121
+      },
+      "isLocked": true,
+      "linkedName": "BlueLeftBumpApex"
+    },
+    {
+      "anchor": {
+        "x": 4.625,
+        "y": 2.518
+      },
+      "prevControl": {
+        "x": 3.6992311293732723,
+        "y": 5.1472981420430415
+      },
+      "nextControl": {
+        "x": 5.550768870626728,
+        "y": -0.11129814204304189
+      },
+      "isLocked": true,
+      "linkedName": "BlueRightBumpApex"
+    },
+    {
+      "anchor": {
+        "x": 10.782635135135136,
+        "y": 5.5503572
+      },
+      "prevControl": {
+        "x": 8.084990291169222,
+        "y": 4.381143939789289
+      },
+      "nextControl": {
+        "x": 13.48027997910105,
+        "y": 6.7195704602107105
+      },
+      "isLocked": true,
+      "linkedName": "RedRightBumpNZ"
+    },
+    {
+      "anchor": {
+        "x": 10.782635135135136,
+        "y": 2.518
+      },
+      "prevControl": {
+        "x": 12.269346070631608,
+        "y": 4.67740234722247
+      },
+      "nextControl": {
+        "x": 9.295924199638664,
+        "y": 0.3585976527775294
+      },
+      "isLocked": true,
+      "linkedName": "RedLeftBumpNZ"
+    },
+    {
+      "anchor": {
+        "x": 11.916385135135135,
+        "y": 5.55
+      },
+      "prevControl": {
+        "x": 10.585726739458972,
+        "y": 4.457418195758134
+      },
+      "nextControl": {
+        "x": 13.247043530811299,
+        "y": 6.642581804241866
+      },
+      "isLocked": true,
+      "linkedName": "RedRightBumpApex"
+    },
+    {
+      "anchor": {
+        "x": 13.131846846846848,
+        "y": 5.567094594594595
+      },
+      "prevControl": {
+        "x": 12.88813119933948,
+        "y": 6.1354792112076515
+      },
+      "nextControl": {
+        "x": 13.375562494354217,
+        "y": 4.998709977981538
+      },
+      "isLocked": true,
+      "linkedName": "RedRightBumpAZ"
+    },
+    {
+      "anchor": {
+        "x": 13.0,
+        "y": 4.034
+      },
+      "prevControl": {
+        "x": 13.121857823753684,
+        "y": 4.526068952954733
+      },
+      "nextControl": {
+        "x": 12.878142176246316,
+        "y": 3.5419310470452663
+      },
+      "isLocked": true,
+      "linkedName": "RedHubStart"
+    },
+    {
+      "anchor": {
+        "x": 13.131846846846848,
+        "y": 2.518
+      },
+      "prevControl": {
+        "x": 12.795608250285321,
+        "y": 3.0681547127118223
+      },
+      "nextControl": {
+        "x": 13.468085443408375,
+        "y": 1.9678452872881773
+      },
+      "isLocked": true,
+      "linkedName": "RedLeftBumpAZ"
+    },
+    {
+      "anchor": {
+        "x": 11.916385135135135,
+        "y": 2.518
+      },
+      "prevControl": {
+        "x": 12.687128307289774,
+        "y": 2.20961408508553
+      },
+      "nextControl": {
+        "x": 11.145641962980497,
+        "y": 2.8263859149144697
+      },
+      "isLocked": true,
+      "linkedName": "RedLeftBumpApex"
+    },
+    {
+      "anchor": {
+        "x": 16.104110360360362,
+        "y": 7.38518018018018
+      },
+      "prevControl": {
+        "x": 14.227500035544304,
+        "y": 7.853339353853632
+      },
+      "nextControl": {
+        "x": 17.98072068517642,
+        "y": 6.917021006506729
+      },
+      "isLocked": true,
+      "linkedName": "RedOutpost"
+    },
+    {
+      "anchor": {
+        "x": 16.104110360360362,
+        "y": 3.0646734234234234
+      },
+      "prevControl": {
+        "x": 17.82378376601163,
+        "y": 5.200233476226337
+      },
+      "nextControl": {
+        "x": 14.384436954709095,
+        "y": 0.9291133706205095
+      },
+      "isLocked": true,
+      "linkedName": "RedDepotRight"
+    },
+    {
+      "anchor": {
+        "x": 15.409560810810813,
+        "y": 2.1249887387387387
+      },
+      "prevControl": {
+        "x": 14.580365999877072,
+        "y": 1.0418877663913357
+      },
+      "nextControl": {
+        "x": 16.238755621744556,
+        "y": 3.2080897110861417
+      },
+      "isLocked": true,
+      "linkedName": "RedDepotFront"
+    },
+    {
+      "anchor": {
+        "x": 16.104110360360362,
+        "y": 1.1240202702702708
+      },
+      "prevControl": {
+        "x": 16.09482826132273,
+        "y": 2.043487423110639
+      },
+      "nextControl": {
+        "x": 16.113392459397996,
+        "y": 0.2045531174299028
+      },
+      "isLocked": true,
+      "linkedName": "RedDepotLeft"
+    },
+    {
+      "anchor": {
+        "x": 15.899831081081082,
+        "y": 2.1249887387387387
+      },
+      "prevControl": {
+        "x": 15.792118526996298,
+        "y": 1.2311616938500862
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RedDepotInner"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.626,
+        "y": 4.034
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.05,
+      "maxWaypointRelativePos": 0.05,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.75,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

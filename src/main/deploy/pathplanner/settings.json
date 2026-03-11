@@ -1,27 +1,27 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.836,
+  "robotLength": 0.836,
   "holonomicMode": true,
   "pathFolders": [
-    "LCS to Reef",
-    "LMid to Reef",
-    "LWall to Reef",
-    "New Mini Paths",
-    "RCS to Reef",
-    "RMid to Reef",
-    "RWall to Reef",
-    "Reef to LCS",
-    "Reef to RCS",
-    "Test Paths(StraightandCircle)"
+    "Blue Bumps",
+    "Blue Depot & Outpost",
+    "Blue Hub",
+    "Blue Neutral",
+    "Red Depot & Outpost",
+    "Red Bumps",
+    "Red Hub",
+    "Red Neutral"
   ],
   "autoFolders": [
-    "(Old)Autos",
-    "Experimental Autos",
-    "Competition Autos",
-    "Test Autos"
+    "Blue Alliance Hub",
+    "Blue Alliance Left Bump",
+    "Blue Alliance Right Bump",
+    "Red Alliance Right Bump",
+    "Red Alliance Left Bump",
+    "Red Alliance Hub"
   ],
-  "defaultMaxVel": 2.1,
-  "defaultMaxAccel": 2.1,
+  "defaultMaxVel": 3.75,
+  "defaultMaxAccel": 3.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
@@ -45,7 +45,6 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.0,\"y\":0.2},\"size\":{\"width\":0.2,\"length\":0.4},\"borderRadius\":0.05,\"strokeWidth\":0.01,\"filled\":true}}",
     "{\"name\":\"Directional Arrow (Stem)\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.0,\"y\":0.0},\"end\":{\"x\":0.35,\"y\":0.0},\"strokeWidth\":0.02}}",
     "{\"name\":\"Directional Arrow (Right Head)\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.35,\"y\":0.0},\"end\":{\"x\":0.2,\"y\":-0.1},\"strokeWidth\":0.02}}",
     "{\"name\":\"Directional Arrow (Left Head)\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.35,\"y\":0.0},\"end\":{\"x\":0.2,\"y\":0.1},\"strokeWidth\":0.02}}"

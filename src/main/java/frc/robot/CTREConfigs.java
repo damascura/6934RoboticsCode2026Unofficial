@@ -13,6 +13,8 @@ public final class CTREConfigs {
     public TalonFXConfiguration shooterFollowerConfig = new TalonFXConfiguration();
     public TalonFXConfiguration loaderFeederConfig = new TalonFXConfiguration();
     public TalonFXConfiguration loaderConveyorConfig = new TalonFXConfiguration();
+    public TalonFXConfiguration intakePivotConfig = new TalonFXConfiguration();
+    public TalonFXConfiguration intakeRollerConfig = new TalonFXConfiguration();
 
 
     public CTREConfigs(){
@@ -82,5 +84,13 @@ public final class CTREConfigs {
         loaderConveyorConfig.MotorOutput.NeutralMode = Constants.Loader.neutralMode;
         loaderFeederConfig.MotorOutput.Inverted = Constants.Loader.feederInvert;
         loaderConveyorConfig.MotorOutput.Inverted = Constants.Loader.conveyorInvert;
+
+        /** Intake Motor Configurations */
+        intakePivotConfig.MotorOutput.NeutralMode = Constants.Intake.neutralMode;
+        intakePivotConfig.MotorOutput.Inverted = Constants.Intake.pivotInvert;
+        intakePivotConfig.Feedback.SensorToMechanismRatio = Constants.Intake.pivotMotorToPivotRatio;
+
+        intakeRollerConfig.MotorOutput.NeutralMode = Constants.Intake.neutralMode;
+        intakeRollerConfig.MotorOutput.Inverted = Constants.Intake.rollerInvert;
     }
 }

@@ -68,12 +68,41 @@ public final class Constants {
         public static final double feederForwardVoltage = 6.0;
         public static final double conveyorForwardVoltage = 6.0;
         public static final double feederReverseVoltage = -2.0;
-        public static final double conveyorReverseVoltage = -.0;
+        public static final double conveyorReverseVoltage = -1.0;
         public static final double reverseSeconds = 0.25;
 
         public static final NeutralModeValue neutralMode = NeutralModeValue.Brake;
         public static final InvertedValue feederInvert = InvertedValue.CounterClockwise_Positive;
         public static final InvertedValue conveyorInvert = InvertedValue.Clockwise_Positive;
+    }
+
+    public static final class Intake {
+        public static final int pivotMotorID = 13;
+        public static final int rollerMotorID = 14;
+        public static final String canBus = "";
+        public static final CANBus canBusRef = new CANBus(canBus);
+        public static final double rollerVoltage = 3.0;
+        public static final double rollerReverseVoltage = -3.0;
+
+        public static final double pivotUpAngleDegrees = -140.0;
+        public static final double pivotDownAngleDegrees = 0.0;
+        public static final double pivotToleranceDegrees = 2.0;
+
+        // Total motor rotations per pivot rotation: 25:1 gearbox and 6:5 pulley ratio => 25 * (6/5) = 30
+        public static final double pivotMotorToPivotRatio = 30.0;
+        public static final double pivotProfileMaxVelocityDegPerSec = 200;
+        public static final double pivotProfileMaxAccelerationDegPerSecSq = 200;
+        public static final double pivotMaxVoltage = 8.0;
+        public static final double pivotHoldMaxVoltage = 10.0;
+
+        // PID output is treated as volts
+        public static final double pivotkP = 0.08;
+        public static final double pivotkI = 0.0;
+        public static final double pivotkD = 0.002;
+
+        public static final NeutralModeValue neutralMode = NeutralModeValue.Brake;
+        public static final InvertedValue pivotInvert = InvertedValue.Clockwise_Positive;
+        public static final InvertedValue rollerInvert = InvertedValue.Clockwise_Positive;
     }
 
     public static final class Vision {
