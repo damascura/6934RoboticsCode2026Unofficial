@@ -32,7 +32,7 @@ public final class Constants {
         public static final double driveStickDeadband = 0.1;
         public static final double weaponStickDeadband = 0.1;
 
-        public static final double driveSlowModeMultiplier = 0.1;
+        public static final double driveSlowModeMultiplier = 0.2;
 
         /* Robot Starting Position */
         public static final Pose2d selectedStartingPose = new Pose2d();
@@ -84,10 +84,10 @@ public final class Constants {
         public static final double rollerVoltage = -3.0;
         public static final double rollerReverseVoltage = 3.0;
 
-        public static final double pivotUpAngleDegrees = -140.0;
+        public static final double pivotUpAngleDegrees = -135.0;
         public static final double pivotDownAngleDegrees = 0.0;
         public static final double pivotToleranceDegrees = 2.0;
-        public static final double pivotMidOffsetDegrees = -25.0;
+        public static final double pivotMidOffsetDegrees = -70.0;
 
         // Total motor rotations per pivot rotation: 25:1 gearbox and 6:5 pulley ratio => 25 * (6/5) = 30
         public static final double pivotMotorToPivotRatio = 30.0;
@@ -178,8 +178,8 @@ public final class Constants {
         public static final int[] hubAlignTagIds = {25, 26, 9, 10};
         public static final double hubAlignBlueX = 0.0;
         public static final double hubAlignBlueY = 0.0;
-        public static final double hubAlignRedX = 0.0;
-        public static final double hubAlignRedY = 0.0;
+        public static final double hubAlignRedX = 11.911;
+        public static final double hubAlignRedY = 4.034;
         public static final double hubAlignGoalDistanceMeters = 1.5;
         public static final double hubAlignDistanceToleranceMeters = 0.08;
         public static final double hubAlignkP = 1.0;

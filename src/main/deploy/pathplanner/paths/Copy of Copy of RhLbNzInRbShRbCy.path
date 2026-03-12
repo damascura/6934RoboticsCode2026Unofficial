@@ -69,7 +69,7 @@
       },
       "prevControl": {
         "x": 9.49483304450849,
-        "y": 0.2850951148461721
+        "y": 0.2850951148461722
       },
       "nextControl": {
         "x": 8.522737735780586,
@@ -112,16 +112,16 @@
     },
     {
       "anchor": {
-        "x": 10.782635135135136,
-        "y": 5.5503572
+        "x": 10.7928490990991,
+        "y": 5.567094594594595
       },
       "prevControl": {
-        "x": 9.964747067334441,
-        "y": 5.383180272657097
+        "x": 9.974961031298406,
+        "y": 5.399917667251692
       },
       "nextControl": {
-        "x": 11.061801013584393,
-        "y": 5.607418912495238
+        "x": 11.072014977548358,
+        "y": 5.624156307089833
       },
       "isLocked": false,
       "linkedName": "RedRightBumpNZ"
@@ -239,7 +239,7 @@
   ],
   "eventMarkers": [
     {
-      "name": "Toggle Intake Pivot",
+      "name": "Raise Intake",
       "waypointRelativePos": 2.965763195435088,
       "endWaypointRelativePos": null,
       "command": null
@@ -276,7 +276,7 @@
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": "Red Bump Left",
+  "folder": "Bump Left",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -45.0

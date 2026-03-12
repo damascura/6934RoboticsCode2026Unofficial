@@ -39,6 +39,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Red Alliance Hub",
+  "folder": "Hub",
   "choreoAuto": false
 }

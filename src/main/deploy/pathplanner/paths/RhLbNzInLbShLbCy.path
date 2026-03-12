@@ -247,7 +247,7 @@
   ],
   "eventMarkers": [
     {
-      "name": "Toggle Intake Pivot",
+      "name": "Lower Intake",
       "waypointRelativePos": 3.288770053475935,
       "endWaypointRelativePos": null,
       "command": null
@@ -256,6 +256,12 @@
       "name": "Run Intake Rollers",
       "waypointRelativePos": 3.9893048128342294,
       "endWaypointRelativePos": 6.577540106951879,
+      "command": null
+    },
+    {
+      "name": "Partial Intake",
+      "waypointRelativePos": 6.104136947218242,
+      "endWaypointRelativePos": null,
       "command": null
     },
     {

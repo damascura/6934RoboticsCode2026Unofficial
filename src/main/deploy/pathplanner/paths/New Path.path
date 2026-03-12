@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 10.782635135135136,
-        "y": 5.5503572
+        "x": 10.7928490990991,
+        "y": 5.567094594594595
       },
       "prevControl": null,
       "nextControl": {
-        "x": 11.782635135135136,
-        "y": 5.5503572
+        "x": 11.7928490990991,
+        "y": 5.567094594594595
       },
       "isLocked": false,
       "linkedName": "RedRightBumpNZ"
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 8.750056306306307,
-        "y": 6.864268018018018
+        "y": 6.925551801801801
       },
       "prevControl": {
         "x": 7.750056306306307,
-        "y": 6.864268018018018
+        "y": 6.925551801801801
       },
       "nextControl": {
         "x": 9.750056306306307,
-        "y": 6.864268018018018
+        "y": 6.925551801801801
       },
       "isLocked": false,
       "linkedName": "RedRightNeutralIntakeStart"
@@ -33,27 +33,27 @@
     {
       "anchor": {
         "x": 8.750056306306307,
-        "y": 5.158536036036037
+        "y": 5.015540540540541
       },
       "prevControl": {
         "x": 8.739358108108108,
-        "y": 6.721272522522524
+        "y": 6.578277027027028
       },
       "nextControl": {
         "x": 8.760754504504506,
-        "y": 3.5957995495495503
+        "y": 3.452804054054054
       },
       "isLocked": false,
       "linkedName": "RedRightNeutralIntakeEnd"
     },
     {
       "anchor": {
-        "x": 10.782635135135136,
-        "y": 5.5503572
+        "x": 10.7928490990991,
+        "y": 5.567094594594595
       },
       "prevControl": {
-        "x": 10.333462837837839,
-        "y": 4.431928145945946
+        "x": 10.343676801801804,
+        "y": 4.448665540540541
       },
       "nextControl": null,
       "isLocked": false,
@@ -82,7 +82,7 @@
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": "Red Neutral",
+  "folder": "Neutral",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -45.0

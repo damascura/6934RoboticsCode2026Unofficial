@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.0,
-        "y": 4.034
+        "x": 13.131846846846848,
+        "y": 5.567094594594595
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.399453918412638,
-        "y": 3.885322569969003
+        "x": 13.531300765259486,
+        "y": 5.418417164563598
       },
       "isLocked": false,
-      "linkedName": "RedHubStart"
+      "linkedName": "RedRightBumpAZ"
     },
     {
       "anchor": {
@@ -69,7 +69,7 @@
       },
       "prevControl": {
         "x": 9.49483304450849,
-        "y": 0.2850951148461721
+        "y": 0.2850951148461722
       },
       "nextControl": {
         "x": 8.522737735780586,
@@ -112,16 +112,16 @@
     },
     {
       "anchor": {
-        "x": 10.782635135135136,
-        "y": 5.5503572
+        "x": 10.7928490990991,
+        "y": 5.567094594594595
       },
       "prevControl": {
-        "x": 9.964747067334441,
-        "y": 5.383180272657097
+        "x": 9.974961031298406,
+        "y": 5.399917667251692
       },
       "nextControl": {
-        "x": 11.061801013584393,
-        "y": 5.607418912495238
+        "x": 11.072014977548358,
+        "y": 5.624156307089833
       },
       "isLocked": false,
       "linkedName": "RedRightBumpNZ"
@@ -213,7 +213,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 9.0,
+      "minWaypointRelativePos": 8.897289586305282,
       "maxWaypointRelativePos": 9.995720399429382,
       "constraints": {
         "maxVelocity": 0.3,
@@ -239,7 +239,7 @@
   ],
   "eventMarkers": [
     {
-      "name": "Toggle Intake Pivot",
+      "name": "Lower Intake",
       "waypointRelativePos": 2.965763195435088,
       "endWaypointRelativePos": null,
       "command": null
@@ -248,6 +248,12 @@
       "name": "Run Intake Rollers",
       "waypointRelativePos": 3.9893048128342294,
       "endWaypointRelativePos": 6.577540106951879,
+      "command": null
+    },
+    {
+      "name": "Partial Intake",
+      "waypointRelativePos": 6.3395149786019855,
+      "endWaypointRelativePos": null,
       "command": null
     },
     {
@@ -276,7 +282,7 @@
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": "Red Bump Right",
+  "folder": "Bump Right",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -45.0

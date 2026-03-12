@@ -51,17 +51,17 @@ public class RobotContainer {
     private final int rotationAxis = XboxController.Axis.kRightX.value;
 
     /* Driver Buttons */
-    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton toggleSlowMode = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+    private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kBack.value);
+    private final JoystickButton toggleSlowMode = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-
     private final JoystickButton hubAutoAlign = new JoystickButton(weapons, XboxController.Button.kA.value);
+
     private final POVButton intakePivotUp = new POVButton(weapons, 0);
     private final POVButton intakePivotDown = new POVButton(weapons, 180);
     private final POVButton intakePivotMid = new POVButton(weapons, 270);
     private final JoystickButton intakeRollers = new JoystickButton(weapons, XboxController.Button.kRightBumper.value);
-    private final JoystickButton load = new JoystickButton(driver, XboxController.Button.kB.value);
-    private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kA.value);
+    private final JoystickButton load = new JoystickButton(weapons, XboxController.Button.kB.value);
+    private final JoystickButton shoot = new JoystickButton(weapons, XboxController.Button.kLeftBumper.value);
     private final NetworkButton elasticHubAutoAlign;
 
     /* Elastic Topics */

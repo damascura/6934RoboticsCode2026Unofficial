@@ -3,22 +3,15 @@
   "robotLength": 0.836,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue Bump Left",
-    "Blue Bump Right",
-    "Blue Hub",
-    "Blue Neutral",
-    "Red Bump Right",
-    "Red Bump Left",
-    "Red Hub",
-    "Red Neutral"
+    "Bump Left",
+    "Bump Right",
+    "Hub",
+    "Neutral"
   ],
   "autoFolders": [
-    "Blue Alliance Hub",
-    "Blue Alliance Left Bump",
-    "Blue Alliance Right Bump",
-    "Red Alliance Right Bump",
-    "Red Alliance Left Bump",
-    "Red Alliance Hub"
+    "Hub",
+    "Left Bump",
+    "Right Bump"
   ],
   "defaultMaxVel": 3.75,
   "defaultMaxAccel": 3.5,

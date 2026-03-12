@@ -49,7 +49,7 @@
   ],
   "eventMarkers": [
     {
-      "name": "Toggle Intake Pivot",
+      "name": "Raise Intake",
       "waypointRelativePos": 0.379457917261056,
       "endWaypointRelativePos": null,
       "command": null
@@ -74,7 +74,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "Red Hub",
+  "folder": "Hub",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -45.0
