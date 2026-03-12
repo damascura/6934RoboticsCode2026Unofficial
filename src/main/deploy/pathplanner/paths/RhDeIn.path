@@ -8,27 +8,11 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 12.937545724631379,
-        "y": 3.695336115877514
+        "x": 13.006386600225854,
+        "y": 3.784081590638954
       },
       "isLocked": false,
       "linkedName": "RedHubStart"
-    },
-    {
-      "anchor": {
-        "x": 15.899831081081082,
-        "y": 2.1249887387387387
-      },
-      "prevControl": {
-        "x": 15.307584701947915,
-        "y": 2.158874815625035
-      },
-      "nextControl": {
-        "x": 16.80482335698035,
-        "y": 2.0732085355612844
-      },
-      "isLocked": false,
-      "linkedName": "RedDepotInner"
     },
     {
       "anchor": {
@@ -36,8 +20,8 @@
         "y": 2.1249887387387387
       },
       "prevControl": {
-        "x": 16.860600493693564,
-        "y": 2.2385776337516896
+        "x": 16.6258762597151,
+        "y": 2.4962330617899378
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,23 +30,34 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 0.25,
       "rotationDegrees": 180.0
     }
   ],
   "constraintZones": [],
-  "pointTowardsZones": [],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 16.4,
+        "y": 2.1
+      },
+      "rotationOffset": 180.0,
+      "minWaypointRelativePos": 0.1255349500713267,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Toggle Intake Pivot",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.379457917261056,
       "endWaypointRelativePos": null,
       "command": null
     },
     {
       "name": "Run Intake Rollers",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": 0,
+      "waypointRelativePos": 0.5962910128388015,
+      "endWaypointRelativePos": 0.9472182596291023,
       "command": null
     }
   ],
@@ -82,7 +77,7 @@
   "folder": "Red Hub",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -45.0
   },
   "useDefaultConstraints": true
 }

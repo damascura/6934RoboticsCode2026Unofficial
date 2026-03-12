@@ -84,6 +84,29 @@ public final class VisionInfo {
     }
 
     /**
+     * Checks whether any of the specified fiducial IDs are currently visible.
+     * @param ids Fiducial IDs to check
+     * @return True if any listed IDs are detected, false otherwise
+     */
+    public static boolean hasAnyFiducialIds(int... ids) {
+        if (ids == null || ids.length == 0) {
+            return false;
+        }
+        RawFiducial[] rawFiducials = LimelightHelpers.getRawFiducials(Vision.limelightName);
+        if (rawFiducials.length == 0) {
+            return false;
+        }
+        for (RawFiducial fiducial : rawFiducials) {
+            for (int id : ids) {
+                if (fiducial.id == id) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks whether the camera has reliably detected targets over the past few ticks.
      * @return True if recent target detection reliability exceeds threshold
      */

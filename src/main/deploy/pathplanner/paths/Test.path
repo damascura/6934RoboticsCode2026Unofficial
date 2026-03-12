@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.0,
-        "y": 4.034
+        "x": 0.0,
+        "y": 0.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.857056441499696,
-        "y": 4.034
+        "x": 1.0245749380457057,
+        "y": -0.15925596366315312
       },
       "isLocked": false,
-      "linkedName": "RedHubStart"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 14.5,
-        "y": 4.0
+        "x": 2.6318918918918923,
+        "y": 1.307871621621622
       },
       "prevControl": {
-        "x": 13.70500441310332,
-        "y": 4.002648927104104
+        "x": 1.4255724052157628,
+        "y": 0.7854330882883994
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,41 +29,40 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [
     {
       "name": "Toggle Intake Pivot",
-      "waypointRelativePos": 0.21390374331550754,
+      "waypointRelativePos": 0,
       "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Toggle Intake Pivot"
-        }
-      }
+      "command": null
     },
     {
       "name": "Shoot",
-      "waypointRelativePos": 0.2526737967914439,
+      "waypointRelativePos": 0.47218259629101306,
       "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Shoot"
-        }
-      }
+      "command": null
     },
     {
       "name": "Load",
-      "waypointRelativePos": 0.7473262032085551,
+      "waypointRelativePos": 0.8259629101283887,
       "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Load"
-        }
-      }
+      "command": null
     }
   ],
   "globalConstraints": {
@@ -76,13 +75,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -154.41655616010925
   },
   "reversed": false,
-  "folder": "Red Hub",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

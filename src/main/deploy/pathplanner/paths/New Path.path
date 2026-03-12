@@ -1,0 +1,91 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 10.782635135135136,
+        "y": 5.5503572
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 11.782635135135136,
+        "y": 5.5503572
+      },
+      "isLocked": false,
+      "linkedName": "RedRightBumpNZ"
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 6.864268018018018
+      },
+      "prevControl": {
+        "x": 7.750056306306307,
+        "y": 6.864268018018018
+      },
+      "nextControl": {
+        "x": 9.750056306306307,
+        "y": 6.864268018018018
+      },
+      "isLocked": false,
+      "linkedName": "RedRightNeutralIntakeStart"
+    },
+    {
+      "anchor": {
+        "x": 8.750056306306307,
+        "y": 5.158536036036037
+      },
+      "prevControl": {
+        "x": 8.739358108108108,
+        "y": 6.721272522522524
+      },
+      "nextControl": {
+        "x": 8.760754504504506,
+        "y": 3.5957995495495503
+      },
+      "isLocked": false,
+      "linkedName": "RedRightNeutralIntakeEnd"
+    },
+    {
+      "anchor": {
+        "x": 10.782635135135136,
+        "y": 5.5503572
+      },
+      "prevControl": {
+        "x": 10.333462837837839,
+        "y": 4.431928145945946
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "RedRightBumpNZ"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.75,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -45.0
+  },
+  "reversed": false,
+  "folder": "Red Neutral",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -45.0
+  },
+  "useDefaultConstraints": true
+}

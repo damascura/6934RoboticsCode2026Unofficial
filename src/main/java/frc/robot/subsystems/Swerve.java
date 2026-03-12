@@ -97,7 +97,7 @@ public class Swerve extends SubsystemBase {
                 config,
                 () -> {
                     var currentAlliance = DriverStation.getAlliance();
-                    return currentAlliance.isPresent() && currentAlliance.get() == DriverStation.Alliance.Red;
+                    return !currentAlliance.isPresent() || currentAlliance.get() == DriverStation.Alliance.Blue;
                 },
                 this
             );

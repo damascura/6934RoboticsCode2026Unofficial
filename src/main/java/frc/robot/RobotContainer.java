@@ -1,12 +1,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.PathConstraints;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringEntry;
@@ -21,11 +17,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.NetworkButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.QuickTuning;
-import frc.robot.Constants.Vision;
 import frc.robot.commands.Load;
 import frc.robot.commands.RunIntakeRollers;
 import frc.robot.commands.Shoot;
@@ -40,8 +35,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.littletonrobotics.junction.Logger;
 
@@ -61,20 +54,15 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton toggleSlowMode = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton driveToTagPrimary = new JoystickButton(driver, XboxController.Button.kX.value);
-    private final JoystickButton driveToTagSecondary = new JoystickButton(driver, XboxController.Button.kStart.value);
-    private final JoystickButton driveToTagTertiary = new JoystickButton(driver, XboxController.Button.kBack.value);
 
-    private final JoystickButton autoAlignCenter = new JoystickButton(weapons, XboxController.Button.kA.value);
-    private final JoystickButton autoAlignLeft = new JoystickButton(weapons, XboxController.Button.kX.value);
-    private final JoystickButton autoAlignRight = new JoystickButton(weapons, XboxController.Button.kY.value);
-    private final JoystickButton intakePivotToggle = new JoystickButton(weapons, XboxController.Button.kLeftBumper.value);
+    private final JoystickButton hubAutoAlign = new JoystickButton(weapons, XboxController.Button.kA.value);
+    private final POVButton intakePivotUp = new POVButton(weapons, 0);
+    private final POVButton intakePivotDown = new POVButton(weapons, 180);
+    private final POVButton intakePivotMid = new POVButton(weapons, 270);
     private final JoystickButton intakeRollers = new JoystickButton(weapons, XboxController.Button.kRightBumper.value);
     private final JoystickButton load = new JoystickButton(driver, XboxController.Button.kB.value);
     private final JoystickButton shoot = new JoystickButton(driver, XboxController.Button.kA.value);
-    private final NetworkButton elasticAutoAlignCenter;
-    private final NetworkButton elasticAutoAlignLeft;
-    private final NetworkButton elasticAutoAlignRight;
+    private final NetworkButton elasticHubAutoAlign;
 
     /* Elastic Topics */
     private final StringEntry elasticSelectedAutoEntry;
@@ -85,9 +73,6 @@ public class RobotContainer {
     private final ShooterSubsys s_Shooter = new ShooterSubsys();
     private final Loader s_Loader = new Loader();
     private final Intake s_Intake = new Intake();
-    private final Command driveToTagPrimaryCommand = createDriveToTagPathCommand(Vision.driveToTagPrimaryTagId, "Primary");
-    private final Command driveToTagSecondaryCommand = createDriveToTagPathCommand(Vision.driveToTagSecondaryTagId, "Secondary");
-    private final Command driveToTagTertiaryCommand = createDriveToTagPathCommand(Vision.driveToTagTertiaryTagId, "Tertiary");
 
     public RobotContainer() {
         NetworkTable elasticTable = NetworkTableInstance.getDefault().getTable("Elastic");
@@ -104,9 +89,7 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Chooser", autoChooser);
         elasticSelectedAutoEntry.set(defaultAuto);
 
-        elasticAutoAlignCenter = new NetworkButton(elasticTable, "Commands/AutoAlignCenter");
-        elasticAutoAlignLeft = new NetworkButton(elasticTable, "Commands/AutoAlignLeft");
-        elasticAutoAlignRight = new NetworkButton(elasticTable, "Commands/AutoAlignRight");
+        elasticHubAutoAlign = new NetworkButton(elasticTable, "Commands/HubAutoAlign");
 
         registerNamedCommands();
 
@@ -125,13 +108,20 @@ public class RobotContainer {
     }
 
     private void registerNamedCommands() {
+        double minPivotAngle = Math.min(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
+        double maxPivotAngle = Math.max(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
+        double midPivotAngle = MathUtil.clamp(
+            Constants.Intake.pivotDownAngleDegrees + Constants.Intake.pivotMidOffsetDegrees,
+            minPivotAngle,
+            maxPivotAngle
+        );
         NamedCommands.registerCommand("Load", new Load(s_Loader));
         NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter));
         NamedCommands.registerCommand("Run Intake Rollers", new RunIntakeRollers(s_Intake));
-        NamedCommands.registerCommand("Toggle Intake Pivot", new ToggleIntakePivot(s_Intake));
-        NamedCommands.registerCommand("Auto Align Center", new VisionAutoAlign(s_Swerve, Vision.autoAlignCenterOffsetX));
-        NamedCommands.registerCommand("Auto Align Left", new VisionAutoAlign(s_Swerve, Vision.autoAlignLeftOffsetX));
-        NamedCommands.registerCommand("Auto Align Right", new VisionAutoAlign(s_Swerve, Vision.autoAlignRightOffsetX));
+        NamedCommands.registerCommand("Lower Intake", new ToggleIntakePivot(s_Intake, Constants.Intake.pivotDownAngleDegrees));
+        NamedCommands.registerCommand("Raise Intake", new ToggleIntakePivot(s_Intake, Constants.Intake.pivotUpAngleDegrees));
+        NamedCommands.registerCommand("Hub Auto Align", new VisionAutoAlign(s_Swerve));
+        NamedCommands.registerCommand("Partial Intake", new ToggleIntakePivot(s_Intake, midPivotAngle));
     }
 
     private void registerStatusSendables() {
@@ -196,22 +186,24 @@ public class RobotContainer {
             }
         }));
 
-        autoAlignCenter.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignCenterOffsetX));
-        autoAlignLeft.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignLeftOffsetX));
-        autoAlignRight.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignRightOffsetX));
-        intakePivotToggle.onTrue(new ToggleIntakePivot(s_Intake));
+        hubAutoAlign.whileTrue(new VisionAutoAlign(s_Swerve));
+        intakePivotUp.onTrue(new ToggleIntakePivot(s_Intake, Constants.Intake.pivotUpAngleDegrees));
+        intakePivotDown.onTrue(new ToggleIntakePivot(s_Intake, Constants.Intake.pivotDownAngleDegrees));
+        double minPivotAngle = Math.min(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
+        double maxPivotAngle = Math.max(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
+        double midPivotAngle = MathUtil.clamp(
+            Constants.Intake.pivotDownAngleDegrees + Constants.Intake.pivotMidOffsetDegrees,
+            minPivotAngle,
+            maxPivotAngle
+        );
+        intakePivotMid.onTrue(new ToggleIntakePivot(s_Intake, midPivotAngle));
         intakeRollers.whileTrue(new RunIntakeRollers(s_Intake));
-        driveToTagPrimary.whileTrue(driveToTagPrimaryCommand);
-        driveToTagSecondary.whileTrue(driveToTagSecondaryCommand);
-        driveToTagTertiary.whileTrue(driveToTagTertiaryCommand);
         shoot.whileTrue(new Shoot(s_Shooter));
         load.whileTrue(new Load(s_Loader));
         load.onFalse(Commands.startEnd(s_Loader::runReverse, s_Loader::stop, s_Loader)
             .withTimeout(Constants.Loader.reverseSeconds));
 
-        elasticAutoAlignCenter.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignCenterOffsetX));
-        elasticAutoAlignLeft.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignLeftOffsetX));
-        elasticAutoAlignRight.whileTrue(new VisionAutoAlign(s_Swerve, Vision.autoAlignRightOffsetX));
+        elasticHubAutoAlign.whileTrue(new VisionAutoAlign(s_Swerve));
     }
 
     public Command getAutonomousCommand() {
@@ -233,53 +225,5 @@ public class RobotContainer {
             Logger.recordOutput("Elastic/Auto/LoadError", "Failed to load auto: " + selectedAuto);
             return null;
         }
-    }
-
-    private Command createDriveToTagPathCommand(int tagId, String slotName) {
-        return Commands.defer(() -> {
-            Optional<edu.wpi.first.math.geometry.Pose3d> maybeTagPose =
-                Vision.fieldLayout.getTagPose(tagId);
-
-            if (maybeTagPose.isEmpty()) {
-                Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/HasTagPose", false);
-                Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/TagId", tagId);
-                return Commands.none();
-            }
-
-            Pose2d tagPose2d = maybeTagPose.get().toPose2d();
-            Pose2d targetPose = tagPose2d.transformBy(new Transform2d(
-                Vision.driveToTagFrontOffsetMeters,
-                0.0,
-                new Rotation2d()
-            ));
-            Rotation2d targetHeading = tagPose2d.getRotation().plus(Rotation2d.fromDegrees(180));
-            targetPose = new Pose2d(targetPose.getTranslation(), targetHeading);
-
-            PathConstraints constraints = new PathConstraints(
-                Vision.driveToTagPathMaxVelocityMPS,
-                Vision.driveToTagPathMaxAccelerationMPSSq,
-                Vision.driveToTagPathMaxAngularVelocityRadPerSec,
-                Vision.driveToTagPathMaxAngularAccelerationRadPerSecSq
-            );
-
-            Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/HasTagPose", true);
-            Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/TagId", tagId);
-            Logger.recordOutput("Vision/DriveToTagPath/" + slotName + "/TargetPose", targetPose);
-            return AutoBuilder.pathfindToPose(targetPose, constraints, Vision.driveToTagPathGoalEndVelocityMPS);
-        }, Set.<Subsystem>of(s_Swerve))
-            .beforeStarting(() -> setPathfindingActive(true))
-            .finallyDo(_interrupted -> setPathfindingActive(false));
-    }
-
-    private void setPathfindingActive(boolean active) {
-        if (active) {
-            activePathfindingCommandCount++;
-        } else {
-            activePathfindingCommandCount = Math.max(0, activePathfindingCommandCount - 1);
-        }
-
-        boolean isActive = activePathfindingCommandCount > 0;
-        SmartDashboard.putBoolean("Pathfinding Active", isActive);
-        Logger.recordOutput("Pathfinding Active", isActive);
     }
 }

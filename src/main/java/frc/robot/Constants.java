@@ -81,12 +81,13 @@ public final class Constants {
         public static final int rollerMotorID = 14;
         public static final String canBus = "";
         public static final CANBus canBusRef = new CANBus(canBus);
-        public static final double rollerVoltage = 3.0;
-        public static final double rollerReverseVoltage = -3.0;
+        public static final double rollerVoltage = -3.0;
+        public static final double rollerReverseVoltage = 3.0;
 
         public static final double pivotUpAngleDegrees = -140.0;
         public static final double pivotDownAngleDegrees = 0.0;
         public static final double pivotToleranceDegrees = 2.0;
+        public static final double pivotMidOffsetDegrees = -25.0;
 
         // Total motor rotations per pivot rotation: 25:1 gearbox and 6:5 pulley ratio => 25 * (6/5) = 30
         public static final double pivotMotorToPivotRatio = 30.0;
@@ -174,32 +175,19 @@ public final class Constants {
         public static final double autoAlignOffsetY = 0.0;
         public static final double autoAlignOffsetZ = 0.0;
 
-        public static final int driveToTagPrimaryTagId = 13;
-        public static final int driveToTagSecondaryTagId = 12;
-        public static final int driveToTagTertiaryTagId = 16;
-        public static final double driveToTagFrontOffsetMeters = 1.5;
-        public static final double driveToTagTranslationToleranceMeters = 0.08;
-        public static final double driveToTagYawToleranceDegrees = 3.0;
+        public static final int[] hubAlignTagIds = {25, 26, 9, 10};
+        public static final double hubAlignBlueX = 0.0;
+        public static final double hubAlignBlueY = 0.0;
+        public static final double hubAlignRedX = 0.0;
+        public static final double hubAlignRedY = 0.0;
+        public static final double hubAlignGoalDistanceMeters = 1.5;
+        public static final double hubAlignDistanceToleranceMeters = 0.08;
+        public static final double hubAlignkP = 1.0;
+        public static final double hubAlignYawkP = 3.0;
+        public static final double hubAlignMaxSpeedMetersPerSecond = 2.0;
+        public static final double hubAlignMaxYawRadiansPerSecond = 2.5;
+        public static final double hubAlignMinSpeedMetersPerSecond = 0.1;
 
-        public static final double driveToTagXkP = 1.2;
-        public static final double driveToTagXkI = 0.0;
-        public static final double driveToTagXkD = 0.0;
-
-        public static final double driveToTagYkP = 1.2;
-        public static final double driveToTagYkI = 0.0;
-        public static final double driveToTagYkD = 0.0;
-
-        public static final double driveToTagYawkP = 0.02;
-        public static final double driveToTagYawkI = 0.0;
-        public static final double driveToTagYawkD = 0.0;
-
-        public static final double driveToTagMaxTranslationMetersPerSecond = 2.0;
-        public static final double driveToTagMaxYawRadiansPerSecond = 2.5;
-        public static final double driveToTagPathMaxVelocityMPS = 3.5;
-        public static final double driveToTagPathMaxAccelerationMPSSq = 3.0;
-        public static final double driveToTagPathMaxAngularVelocityRadPerSec = 2.5 * Math.PI;
-        public static final double driveToTagPathMaxAngularAccelerationRadPerSecSq = 4.0 * Math.PI;
-        public static final double driveToTagPathGoalEndVelocityMPS = 0.0;
 
         public static final double maxVisionYawRateForMegatag = 540.0;
         public static final int minVisionTagCountForMegatag = 1;

@@ -3,12 +3,12 @@
   "robotLength": 0.836,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue Bumps",
-    "Blue Depot & Outpost",
+    "Blue Bump Left",
+    "Blue Bump Right",
     "Blue Hub",
     "Blue Neutral",
-    "Red Depot & Outpost",
-    "Red Bumps",
+    "Red Bump Right",
+    "Red Bump Left",
     "Red Hub",
     "Red Neutral"
   ],

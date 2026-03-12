@@ -7,4 +7,8 @@ public class ToggleIntakePivot extends InstantCommand {
     public ToggleIntakePivot(Intake intake) {
         super(intake::togglePivot);
     }
+
+    public ToggleIntakePivot(Intake intake, double targetDegrees) {
+        super(() -> intake.setPivotGoalDegrees(targetDegrees));
+    }
 }

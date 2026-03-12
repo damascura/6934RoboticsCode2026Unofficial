@@ -1,13 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.Constants.Vision;
 import frc.robot.VisionInfo;
 import frc.robot.subsystems.Swerve;
@@ -16,28 +13,10 @@ public class VisionAutoAlign extends Command {
     private static int activeCommandCount = 0;
 
     private final Swerve s_Swerve;
-    private final double targetOffsetXMeters;
+    private boolean hasInitTarget = false;
 
-    private final PIDController forwardController = new PIDController(
-        Vision.autoAlignForwardkP,
-        Vision.autoAlignForwardkI,
-        Vision.autoAlignForwardkD
-    );
-    private final ProfiledPIDController strafeController = new ProfiledPIDController(
-        Vision.autoAlignStrafekP,
-        Vision.autoAlignStrafekI,
-        Vision.autoAlignStrafekD,
-        new TrapezoidProfile.Constraints(Vision.TXMaxSpeed, Vision.TXMaxAcceleration)
-    );
-    private final PIDController yawController = new PIDController(
-        Vision.autoAlignYawkP,
-        Vision.autoAlignYawkI,
-        Vision.autoAlignYawkD
-    );
-
-    public VisionAutoAlign(Swerve s_Swerve, double targetOffsetXMeters) {
+    public VisionAutoAlign(Swerve s_Swerve) {
         this.s_Swerve = s_Swerve;
-        this.targetOffsetXMeters = targetOffsetXMeters;
         addRequirements(s_Swerve);
     }
 
@@ -49,80 +28,72 @@ public class VisionAutoAlign extends Command {
     public void initialize() {
         activeCommandCount++;
         VisionInfo.setAprilTagPipeline();
-        VisionInfo.setFiducialOffsetX(targetOffsetXMeters);
-
-        forwardController.setTolerance(Vision.autoAlignDistanceToleranceMeters);
-        strafeController.setTolerance(Units.degreesToRotations(Vision.TXTolerance));
-        yawController.setTolerance(Vision.autoAlignYawToleranceDegrees);
-
-        forwardController.reset();
-        strafeController.reset(Units.degreesToRotations(VisionInfo.getTX(false)));
-        yawController.reset();
+        hasInitTarget = VisionInfo.hasAnyFiducialIds(Vision.hubAlignTagIds);
     }
 
     @Override
     public void execute() {
-        double forwardPercent = 0;
-        double strafePercent = 0;
-        double yawPercent = 0;
-
-        if (VisionInfo.willTarget()) {
-            strafePercent = strafeController.calculate(
-                Units.degreesToRotations(VisionInfo.getTX(false)),
-                0
-            ) * Vision.autoAlignStrafeDirection;
-            yawPercent = yawController.calculate(VisionInfo.getTagYawErrorDegrees(), 0) * Vision.autoAlignYawDirection;
-
-            double tagDistance = VisionInfo.getNearestTagDistanceMeters();
-            if (!Double.isNaN(tagDistance)) {
-                forwardPercent = forwardController.calculate(tagDistance, Vision.autoAlignGoalDistanceMeters) * Vision.autoAlignForwardDirection;
-            }
+        if (!hasInitTarget) {
+            stopDrive();
+            return;
         }
+
+        Pose2d pose = s_Swerve.getSwervePoseEstimation();
+        Translation2d hubPosition = getAllianceHubPosition();
+        Translation2d toHub = hubPosition.minus(pose.getTranslation());
+        double distanceToHub = toHub.getNorm();
+        if (distanceToHub < 1e-6) {
+            stopDrive();
+            return;
+        }
+
+        double distanceError = distanceToHub - Vision.hubAlignGoalDistanceMeters;
+        double speed = distanceError * Vision.hubAlignkP;
+        speed = enforceMinimumOutput(
+            speed,
+            distanceError,
+            Vision.hubAlignDistanceToleranceMeters,
+            Vision.hubAlignMinSpeedMetersPerSecond
+        );
+        speed = MathUtil.clamp(speed, -Vision.hubAlignMaxSpeedMetersPerSecond, Vision.hubAlignMaxSpeedMetersPerSecond);
+
+        Translation2d direction = toHub.times(1.0 / distanceToHub);
+        Translation2d translation = direction.times(speed);
+
+        double desiredYaw = Math.atan2(toHub.getY(), toHub.getX());
+        double yawError = MathUtil.angleModulus(desiredYaw - pose.getRotation().getRadians());
+        double yawRate = MathUtil.clamp(
+            yawError * Vision.hubAlignYawkP,
+            -Vision.hubAlignMaxYawRadiansPerSecond,
+            Vision.hubAlignMaxYawRadiansPerSecond
+        );
 
         double speedScale = Math.max(s_Swerve.getSpeedMultiplier(), 0.01);
-        forwardPercent /= speedScale;
-        strafePercent /= speedScale;
-        yawPercent /= speedScale;
-
-        forwardPercent = MathUtil.clamp(forwardPercent, -Vision.autoAlignMaxForwardPercent, Vision.autoAlignMaxForwardPercent);
-        strafePercent = MathUtil.clamp(strafePercent, -Vision.autoAlignMaxStrafePercent, Vision.autoAlignMaxStrafePercent);
-        yawPercent = MathUtil.clamp(yawPercent, -Vision.autoAlignMaxYawPercent, Vision.autoAlignMaxYawPercent);
-
-        double tagDistance = VisionInfo.getNearestTagDistanceMeters();
-        if (!Double.isNaN(tagDistance)) {
-            double distanceError = tagDistance - Vision.autoAlignGoalDistanceMeters;
-            forwardPercent = enforceMinimumOutput(
-                forwardPercent,
-                distanceError,
-                Vision.autoAlignDistanceToleranceMeters,
-                Vision.autoAlignMinForwardPercent
-            );
-        }
-        strafePercent = enforceMinimumOutput(
-            strafePercent,
-            VisionInfo.getTX(false),
-            Vision.TXTolerance,
-            Vision.autoAlignMinStrafePercent
-        );
-
-        s_Swerve.drive(
-            new Translation2d(forwardPercent, strafePercent).times(Constants.Swerve.maxSpeed),
-            yawPercent * Constants.Swerve.maxAngularVelocity,
-            false,
-            true
-        );
+        Translation2d scaledTranslation = translation.times(1.0 / speedScale);
+        s_Swerve.drive(scaledTranslation, yawRate / speedScale, true, true);
     }
 
     @Override
     public void end(boolean interrupted) {
         activeCommandCount = Math.max(0, activeCommandCount - 1);
-        VisionInfo.resetFiducialOffset();
-        s_Swerve.drive(new Translation2d(0, 0), 0, false, true);
+        stopDrive();
     }
 
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    private Translation2d getAllianceHubPosition() {
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+            return new Translation2d(Vision.hubAlignRedX, Vision.hubAlignRedY);
+        }
+        return new Translation2d(Vision.hubAlignBlueX, Vision.hubAlignBlueY);
+    }
+
+    private void stopDrive() {
+        s_Swerve.drive(new Translation2d(), 0.0, true, true);
     }
 
     private double enforceMinimumOutput(double output, double error, double tolerance, double minMagnitude) {
