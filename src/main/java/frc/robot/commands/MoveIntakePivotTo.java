@@ -3,16 +3,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake;
 
-public class ToggleIntakePivot extends Command {
+public class MoveIntakePivotTo extends Command {
     private final Intake intake;
+    private final double targetDegrees;
 
-    public ToggleIntakePivot(Intake intake) {
+    public MoveIntakePivotTo(Intake intake, double targetDegrees) {
         this.intake = intake;
+        this.targetDegrees = targetDegrees;
+        addRequirements(intake);
     }
 
     @Override
     public void initialize() {
-        intake.startProfileToggle();
+        intake.startProfileTo(targetDegrees);
     }
 
     @Override
@@ -22,6 +25,6 @@ public class ToggleIntakePivot extends Command {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return intake.isAtGoal() || intake.isManualActive();
     }
 }

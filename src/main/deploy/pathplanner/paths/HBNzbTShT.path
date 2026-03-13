@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 13.131846846846848,
-        "y": 5.567094594594595
+        "x": 13.0,
+        "y": 4.034
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.531300765259486,
-        "y": 5.418417164563598
+        "x": 13.399453918412638,
+        "y": 3.885322569969003
       },
       "isLocked": false,
-      "linkedName": "RedRightBumpAZ"
+      "linkedName": "RedHubStart"
     },
     {
       "anchor": {
@@ -69,7 +69,7 @@
       },
       "prevControl": {
         "x": 9.49483304450849,
-        "y": 0.2850951148461722
+        "y": 0.2850951148461721
       },
       "nextControl": {
         "x": 8.522737735780586,
@@ -108,7 +108,7 @@
         "y": 4.194013865443707
       },
       "isLocked": false,
-      "linkedName": "RedLeftNeutralIntakeEnd"
+      "linkedName": "RedBottomNeutralIntakeEnd"
     },
     {
       "anchor": {
@@ -124,7 +124,7 @@
         "y": 5.624156307089833
       },
       "isLocked": false,
-      "linkedName": "RedRightBumpNZ"
+      "linkedName": "RedTopBumpNZ"
     },
     {
       "anchor": {
@@ -164,15 +164,15 @@
         "y": 5.5503572
       },
       "prevControl": {
-        "x": 14.102173423423423,
-        "y": 6.047150900900902
+        "x": 14.071042889792496,
+        "y": 5.795186823256582
       },
       "nextControl": {
-        "x": 13.954783465907404,
-        "y": 5.151044321609712
+        "x": 13.969880533630926,
+        "y": 5.305527576743418
       },
       "isLocked": false,
-      "linkedName": "RedRightBumpShoot"
+      "linkedName": "RedTopBumpShoot"
     },
     {
       "anchor": {
@@ -213,7 +213,7 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 8.897289586305282,
+      "minWaypointRelativePos": 9.0,
       "maxWaypointRelativePos": 9.995720399429382,
       "constraints": {
         "maxVelocity": 0.3,
@@ -240,7 +240,7 @@
   "eventMarkers": [
     {
       "name": "Lower Intake",
-      "waypointRelativePos": 2.965763195435088,
+      "waypointRelativePos": 2.4950071326676175,
       "endWaypointRelativePos": null,
       "command": null
     },
@@ -252,7 +252,7 @@
     },
     {
       "name": "Partial Intake",
-      "waypointRelativePos": 6.3395149786019855,
+      "waypointRelativePos": 6.0099857346647685,
       "endWaypointRelativePos": null,
       "command": null
     },
@@ -282,10 +282,10 @@
     "rotation": -45.0
   },
   "reversed": false,
-  "folder": "Bump Right",
+  "folder": "Hub",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -45.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

@@ -8,7 +8,6 @@ public class RunIntakeRollers extends Command {
 
     public RunIntakeRollers(Intake intake) {
         this.intake = intake;
-        addRequirements(intake);
     }
 
     @Override

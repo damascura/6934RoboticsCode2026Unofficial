@@ -25,6 +25,8 @@ public class Intake extends SubsystemBase {
     );
 
     private double pivotGoalDegrees = Constants.Intake.pivotUpAngleDegrees;
+    private double manualPercent = 0.0;
+    private boolean profileEnabled = false;
 
     public Intake() {
         pivotMotor = new TalonFX(Constants.Intake.pivotMotorID, Constants.Intake.canBusRef);
@@ -41,17 +43,38 @@ public class Intake extends SubsystemBase {
         pivotController.setGoal(pivotGoalDegrees);
     }
 
-    public void togglePivot() {
-        if (isGoalDown()) {
-            setPivotGoalDegrees(Constants.Intake.pivotUpAngleDegrees);
-            return;
-        }
-        setPivotGoalDegrees(Constants.Intake.pivotDownAngleDegrees);
+    public void startProfileToggle() {
+        double currentDegrees = getPivotAngleDegrees();
+        double midDegrees = (Constants.Intake.pivotUpAngleDegrees + Constants.Intake.pivotDownAngleDegrees) / 2.0;
+        double targetDegrees = currentDegrees > midDegrees
+            ? Constants.Intake.pivotDownAngleDegrees
+            : Constants.Intake.pivotUpAngleDegrees;
+
+        startProfileTo(targetDegrees);
+    }
+
+    public void startProfileTo(double targetDegrees) {
+        profileEnabled = true;
+        pivotGoalDegrees = targetDegrees;
+        pivotController.reset(getPivotAngleDegrees());
+        pivotController.setGoal(pivotGoalDegrees);
     }
 
     public void setPivotGoalDegrees(double goalDegrees) {
         pivotGoalDegrees = goalDegrees;
         pivotController.setGoal(pivotGoalDegrees);
+    }
+
+    public void disableProfileHold() {
+        profileEnabled = false;
+        double currentDegrees = getPivotAngleDegrees();
+        pivotGoalDegrees = currentDegrees;
+        pivotController.reset(currentDegrees);
+        pivotController.setGoal(currentDegrees);
+    }
+
+    public void setManualPercent(double percent) {
+        manualPercent = percent;
     }
 
     public boolean isDown() {
@@ -62,6 +85,14 @@ public class Intake extends SubsystemBase {
     public boolean isGoalDown() {
         return Math.abs(pivotGoalDegrees - Constants.Intake.pivotDownAngleDegrees)
             <= Constants.Intake.pivotToleranceDegrees;
+    }
+
+    public boolean isAtGoal() {
+        return pivotController.atGoal();
+    }
+
+    public boolean isManualActive() {
+        return Math.abs(applyDeadband(manualPercent, Constants.Intake.pivotManualDeadband)) > 1e-6;
     }
 
     public double getPivotAngleDegrees() {
@@ -82,12 +113,39 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
+        double manualInput = applyDeadband(manualPercent, Constants.Intake.pivotManualDeadband);
+        if (Math.abs(manualInput) > 1e-6) {
+            double currentDegrees = getPivotAngleDegrees();
+            double requestedVolts = manualInput * Constants.Intake.pivotManualMaxVoltage;
+            double minDegrees = Math.min(Constants.Intake.pivotUpAngleDegrees, Constants.Intake.pivotDownAngleDegrees);
+            double maxDegrees = Math.max(Constants.Intake.pivotUpAngleDegrees, Constants.Intake.pivotDownAngleDegrees);
+
+            if ((requestedVolts > 0 && currentDegrees >= maxDegrees)
+                || (requestedVolts < 0 && currentDegrees <= minDegrees)) {
+                requestedVolts = 0.0;
+            }
+
+            profileEnabled = false;
+            pivotGoalDegrees = currentDegrees;
+            pivotController.reset(currentDegrees);
+            pivotController.setGoal(currentDegrees);
+            pivotMotor.setControl(pivotVoltageRequest.withOutput(requestedVolts));
+            return;
+        }
+
         double outputVolts = pivotController.calculate(getPivotAngleDegrees());
-        double maxVoltage = Math.abs(pivotController.getPositionError()) <= Constants.Intake.pivotToleranceDegrees
-            ? Constants.Intake.pivotHoldMaxVoltage
-            : Constants.Intake.pivotMaxVoltage;
+        double maxVoltage = profileEnabled
+            ? Constants.Intake.pivotMaxVoltage
+            : Constants.Intake.pivotHoldMaxVoltage;
         outputVolts = Math.max(-maxVoltage, Math.min(maxVoltage, outputVolts));
         pivotMotor.setControl(pivotVoltageRequest.withOutput(outputVolts));
+    }
+
+    private double applyDeadband(double value, double deadband) {
+        if (Math.abs(value) <= deadband) {
+            return 0.0;
+        }
+        return value;
     }
 
     private double degreesToPivotRotations(double degrees) {

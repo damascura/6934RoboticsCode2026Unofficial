@@ -44,7 +44,7 @@
         "y": 8.154240092694888
       },
       "isLocked": true,
-      "linkedName": "BlueLeftBumpAZ"
+      "linkedName": "BlueTopBumpAZ"
     },
     {
       "anchor": {
@@ -76,7 +76,7 @@
         "y": 8.026859572723271
       },
       "isLocked": true,
-      "linkedName": "BlueDepotRight"
+      "linkedName": "BlueDepotBottom"
     },
     {
       "anchor": {
@@ -140,7 +140,7 @@
         "y": 5.187648958205114
       },
       "isLocked": true,
-      "linkedName": "BlueLeftBumpNZ"
+      "linkedName": "BlueTopBumpNZ"
     },
     {
       "anchor": {
@@ -156,7 +156,7 @@
         "y": 1.2879818272037495
       },
       "isLocked": true,
-      "linkedName": "BlueRightBumpNZ"
+      "linkedName": "BlueBottomBumpNZ"
     },
     {
       "anchor": {
@@ -252,7 +252,7 @@
         "y": 4.105069817401411
       },
       "isLocked": false,
-      "linkedName": "RedRightNeutralIntakeEnd"
+      "linkedName": "RedTopNeutralIntakeEnd"
     },
     {
       "anchor": {
@@ -268,7 +268,7 @@
         "y": 2.350409911119115
       },
       "isLocked": true,
-      "linkedName": "RedLeftNeutralIntakeEnd"
+      "linkedName": "RedBottomNeutralIntakeEnd"
     },
     {
       "anchor": {
@@ -296,8 +296,8 @@
         "y": 3.365806869067069
       },
       "nextControl": {
-        "x": 2.567797844332132,
-        "y": 7.768382320122121
+        "x": 2.5677978443321323,
+        "y": 7.768382320122122
       },
       "isLocked": true,
       "linkedName": "BlueLeftBumpApex"
@@ -316,7 +316,7 @@
         "y": -0.11129814204304189
       },
       "isLocked": true,
-      "linkedName": "BlueRightBumpApex"
+      "linkedName": "BlueBottomBumpApex"
     },
     {
       "anchor": {
@@ -332,7 +332,7 @@
         "y": 6.736307854805306
       },
       "isLocked": true,
-      "linkedName": "RedRightBumpNZ"
+      "linkedName": "RedTopBumpNZ"
     },
     {
       "anchor": {
@@ -489,7 +489,7 @@
       },
       "nextControl": {
         "x": 16.113392459397996,
-        "y": 0.2045531174299028
+        "y": 0.20455311742990268
       },
       "isLocked": true,
       "linkedName": "RedDepotLeft"

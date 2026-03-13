@@ -81,20 +81,22 @@ public final class Constants {
         public static final int rollerMotorID = 14;
         public static final String canBus = "";
         public static final CANBus canBusRef = new CANBus(canBus);
-        public static final double rollerVoltage = -3.0;
-        public static final double rollerReverseVoltage = 3.0;
+        public static final double rollerVoltage = -6.0;
+        public static final double rollerReverseVoltage = 6.0;
 
-        public static final double pivotUpAngleDegrees = -135.0;
+        public static final double pivotUpAngleDegrees = -110.0;
         public static final double pivotDownAngleDegrees = 0.0;
         public static final double pivotToleranceDegrees = 2.0;
-        public static final double pivotMidOffsetDegrees = -70.0;
+        public static final double pivotMidOffsetDegrees = -55.0;
 
-        // Total motor rotations per pivot rotation: 25:1 gearbox and 6:5 pulley ratio => 25 * (6/5) = 30
-        public static final double pivotMotorToPivotRatio = 30.0;
+        // Total motor rotations per pivot rotation: 125:1 gearbox and 6:5 pulley ratio => 125 * (6/5) = 150
+        public static final double pivotMotorToPivotRatio = 150.0;
         public static final double pivotProfileMaxVelocityDegPerSec = 200;
         public static final double pivotProfileMaxAccelerationDegPerSecSq = 200;
-        public static final double pivotMaxVoltage = 8.0;
+        public static final double pivotMaxVoltage = 4.0;
         public static final double pivotHoldMaxVoltage = 10.0;
+        public static final double pivotManualMaxVoltage = 2.0;
+        public static final double pivotManualDeadband = QuickTuning.weaponStickDeadband;
 
         // PID output is treated as volts
         public static final double pivotkP = 0.08;

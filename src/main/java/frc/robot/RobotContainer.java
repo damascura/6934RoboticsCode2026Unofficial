@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.button.NetworkButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.QuickTuning;
 import frc.robot.commands.Load;
+import frc.robot.commands.ManualIntakePivot;
+import frc.robot.commands.MoveIntakePivotTo;
 import frc.robot.commands.RunIntakeRollers;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.TeleopSwerve;
@@ -54,8 +56,8 @@ public class RobotContainer {
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kBack.value);
     private final JoystickButton toggleSlowMode = new JoystickButton(driver, XboxController.Button.kStart.value);
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
-    private final JoystickButton hubAutoAlign = new JoystickButton(weapons, XboxController.Button.kA.value);
 
+    private final JoystickButton hubAutoAlign = new JoystickButton(weapons, XboxController.Button.kX.value);
     private final POVButton intakePivotUp = new POVButton(weapons, 0);
     private final POVButton intakePivotDown = new POVButton(weapons, 180);
     private final POVButton intakePivotMid = new POVButton(weapons, 270);
@@ -102,6 +104,12 @@ public class RobotContainer {
                 () -> robotCentric.getAsBoolean()
             )
         );
+        s_Intake.setDefaultCommand(
+            new ManualIntakePivot(
+                s_Intake,
+                () -> weapons.getRawAxis(XboxController.Axis.kLeftY.value)
+            )
+        );
 
         registerStatusSendables();
         configureButtonBindings();
@@ -118,10 +126,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("Load", new Load(s_Loader));
         NamedCommands.registerCommand("Shoot", new Shoot(s_Shooter));
         NamedCommands.registerCommand("Run Intake Rollers", new RunIntakeRollers(s_Intake));
-        NamedCommands.registerCommand("Lower Intake", new ToggleIntakePivot(s_Intake, Constants.Intake.pivotDownAngleDegrees));
-        NamedCommands.registerCommand("Raise Intake", new ToggleIntakePivot(s_Intake, Constants.Intake.pivotUpAngleDegrees));
+        NamedCommands.registerCommand("Lower Intake", new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotDownAngleDegrees));
+        NamedCommands.registerCommand("Raise Intake", new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotUpAngleDegrees));
         NamedCommands.registerCommand("Hub Auto Align", new VisionAutoAlign(s_Swerve));
-        NamedCommands.registerCommand("Partial Intake", new ToggleIntakePivot(s_Intake, midPivotAngle));
+        NamedCommands.registerCommand("Partial Intake", new MoveIntakePivotTo(s_Intake, midPivotAngle));
     }
 
     private void registerStatusSendables() {
@@ -187,8 +195,8 @@ public class RobotContainer {
         }));
 
         hubAutoAlign.whileTrue(new VisionAutoAlign(s_Swerve));
-        intakePivotUp.onTrue(new ToggleIntakePivot(s_Intake, Constants.Intake.pivotUpAngleDegrees));
-        intakePivotDown.onTrue(new ToggleIntakePivot(s_Intake, Constants.Intake.pivotDownAngleDegrees));
+        intakePivotUp.whileTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotUpAngleDegrees));
+        intakePivotDown.whileTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotDownAngleDegrees));
         double minPivotAngle = Math.min(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
         double maxPivotAngle = Math.max(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
         double midPivotAngle = MathUtil.clamp(
@@ -196,7 +204,7 @@ public class RobotContainer {
             minPivotAngle,
             maxPivotAngle
         );
-        intakePivotMid.onTrue(new ToggleIntakePivot(s_Intake, midPivotAngle));
+        intakePivotMid.whileTrue(new MoveIntakePivotTo(s_Intake, midPivotAngle));
         intakeRollers.whileTrue(new RunIntakeRollers(s_Intake));
         shoot.whileTrue(new Shoot(s_Shooter));
         load.whileTrue(new Load(s_Loader));
