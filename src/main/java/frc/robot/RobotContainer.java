@@ -5,6 +5,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StringArrayPublisher;
 import edu.wpi.first.networktables.StringEntry;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -68,6 +69,7 @@ public class RobotContainer {
 
     /* Elastic Topics */
     private final StringEntry elasticSelectedAutoEntry;
+    private final StringArrayPublisher elasticAutoOptionsPublisher;
     private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
     /* Subsystems */
@@ -79,9 +81,10 @@ public class RobotContainer {
     public RobotContainer() {
         NetworkTable elasticTable = NetworkTableInstance.getDefault().getTable("Elastic");
         elasticSelectedAutoEntry = elasticTable.getStringTopic("Auto/Selected").getEntry("");
+        elasticAutoOptionsPublisher = elasticTable.getStringArrayTopic("Auto/Options").publish();
 
         List<String> autoOptions = loadElasticAutoOptions();
-        String defaultAuto = autoOptions.contains("RHubShoot") ? "RHubShoot" : "DoNothing";
+        String defaultAuto = autoOptions.contains("RHubShoot") ? "RHubShoot" : "BNzbInBShBC1BNzbInBShBC2BNzbInC3";
         autoChooser.setDefaultOption(defaultAuto, defaultAuto);
         for (String autoName : autoOptions) {
             if (!defaultAuto.equals(autoName)) {
@@ -89,7 +92,10 @@ public class RobotContainer {
             }
         }
         SmartDashboard.putData("Auto Chooser", autoChooser);
-        elasticSelectedAutoEntry.set(defaultAuto);
+        elasticAutoOptionsPublisher.set(autoOptions.toArray(new String[0]));
+        if (elasticSelectedAutoEntry.get().isEmpty()) {
+            elasticSelectedAutoEntry.set(defaultAuto);
+        }
 
         elasticHubAutoAlign = new NetworkButton(elasticTable, "Commands/HubAutoAlign");
 
@@ -194,7 +200,7 @@ public class RobotContainer {
             }
         }));
 
-        hubAutoAlign.whileTrue(new VisionAutoAlign(s_Swerve));
+        hubAutoAlign.onTrue(new VisionAutoAlign(s_Swerve, hubAutoAlign::getAsBoolean));
         intakePivotUp.whileTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotUpAngleDegrees));
         intakePivotDown.whileTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotDownAngleDegrees));
         double minPivotAngle = Math.min(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
@@ -211,12 +217,15 @@ public class RobotContainer {
         load.onFalse(Commands.startEnd(s_Loader::runReverse, s_Loader::stop, s_Loader)
             .withTimeout(Constants.Loader.reverseSeconds));
 
-        elasticHubAutoAlign.whileTrue(new VisionAutoAlign(s_Swerve));
+        elasticHubAutoAlign.onTrue(new VisionAutoAlign(s_Swerve, elasticHubAutoAlign::getAsBoolean));
     }
 
     public Command getAutonomousCommand() {
         s_Swerve.setSpeedMultiplier(1);
-        String selectedAuto = autoChooser.getSelected();
+        String selectedAuto = elasticSelectedAutoEntry.get();
+        if (selectedAuto == null || selectedAuto.isEmpty()) {
+            selectedAuto = autoChooser.getSelected();
+        }
         if (selectedAuto == null || selectedAuto.isEmpty()) {
             selectedAuto = "DoNothing";
         }

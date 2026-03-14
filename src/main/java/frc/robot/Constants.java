@@ -48,7 +48,7 @@ public final class Constants {
         public static final CANBus canBusRef = new CANBus(canBus);
         public static final boolean followerOpposesLeader = false;
 
-        public static final double targetRPS = 50; // 3000 RPM
+        public static final double targetRPS = 48.33; // 2700 RPM
 
         public static final double kP = 0.18;
         public static final double kI = 0.0;
@@ -84,24 +84,24 @@ public final class Constants {
         public static final double rollerVoltage = -6.0;
         public static final double rollerReverseVoltage = 6.0;
 
-        public static final double pivotUpAngleDegrees = -110.0;
+        public static final double pivotUpAngleDegrees = -115.0;
         public static final double pivotDownAngleDegrees = 0.0;
         public static final double pivotToleranceDegrees = 2.0;
-        public static final double pivotMidOffsetDegrees = -55.0;
+        public static final double pivotMidOffsetDegrees = -50.0;
 
         // Total motor rotations per pivot rotation: 125:1 gearbox and 6:5 pulley ratio => 125 * (6/5) = 150
         public static final double pivotMotorToPivotRatio = 150.0;
-        public static final double pivotProfileMaxVelocityDegPerSec = 200;
-        public static final double pivotProfileMaxAccelerationDegPerSecSq = 200;
-        public static final double pivotMaxVoltage = 4.0;
+        public static final double pivotProfileMaxVelocityDegPerSec = 360;
+        public static final double pivotProfileMaxAccelerationDegPerSecSq = 720;
+        public static final double pivotMaxVoltage = 10.0;
         public static final double pivotHoldMaxVoltage = 10.0;
-        public static final double pivotManualMaxVoltage = 2.0;
+        public static final double pivotManualMaxVoltage = 7.0;
         public static final double pivotManualDeadband = QuickTuning.weaponStickDeadband;
 
         // PID output is treated as volts
-        public static final double pivotkP = 0.08;
-        public static final double pivotkI = 0.0;
-        public static final double pivotkD = 0.002;
+        public static final double pivotkP = 0.15;
+        public static final double pivotkI = 0.0001;
+        public static final double pivotkD = 0.004;
 
         public static final NeutralModeValue neutralMode = NeutralModeValue.Brake;
         public static final InvertedValue pivotInvert = InvertedValue.Clockwise_Positive;
@@ -167,6 +167,10 @@ public final class Constants {
         public static final double autoAlignMinForwardPercent = 0.12;
         public static final double autoAlignMinStrafePercent = 0.04;
 
+        public static final double autoAlignReplanPeriodSeconds = 0.25;
+        public static final double autoAlignReplanTranslationToleranceMeters = 0.15;
+        public static final double autoAlignReplanRotationToleranceDegrees = 5.0;
+
         public static final double autoAlignForwardDirection = -1.0;
         public static final double autoAlignStrafeDirection = 1.0;
         public static final double autoAlignYawDirection = 1.0;
@@ -178,8 +182,8 @@ public final class Constants {
         public static final double autoAlignOffsetZ = 0.0;
 
         public static final int[] hubAlignTagIds = {25, 26, 9, 10};
-        public static final double hubAlignBlueX = 0.0;
-        public static final double hubAlignBlueY = 0.0;
+        public static final double hubAlignBlueX = 4.634;
+        public static final double hubAlignBlueY = 4.034;
         public static final double hubAlignRedX = 11.911;
         public static final double hubAlignRedY = 4.034;
         public static final double hubAlignGoalDistanceMeters = 1.5;
