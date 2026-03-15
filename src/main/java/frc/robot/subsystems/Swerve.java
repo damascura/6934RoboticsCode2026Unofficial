@@ -258,37 +258,42 @@ public class Swerve extends SubsystemBase {
             rollRateDegreesPerSecond
         );
 
-        LimelightHelpers.PoseEstimate megaTag2Estimation =
-            LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(Constants.Vision.limelightName);
+        LimelightHelpers.PoseEstimate poseEstimate;
+        var alliance = DriverStation.getAlliance();
+        if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
+            poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiRed(Constants.Vision.limelightName);
+        } else {
+            poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Vision.limelightName);
+        }
 
-        boolean hasEstimate = (megaTag2Estimation != null) && (megaTag2Estimation.pose != null);
+        boolean hasEstimate = (poseEstimate != null) && (poseEstimate.pose != null);
         boolean validTargets = VisionInfo.hasValidTargets();
         boolean spinRateOk = Math.abs(yawRateDegreesPerSecond) < Constants.Vision.maxVisionYawRateForMegatag;
-        boolean tagCountOk = hasEstimate && (megaTag2Estimation.tagCount >= Constants.Vision.minVisionTagCountForMegatag);
-        boolean avgDistOk = hasEstimate && (megaTag2Estimation.avgTagDist <= Constants.Vision.maxVisionAvgTagDistMeters);
-        boolean avgAreaOk = hasEstimate && (megaTag2Estimation.avgTagArea >= Constants.Vision.minVisionAvgTagArea);
-        boolean ambiguityOk = hasEstimate && hasAcceptableFiducialAmbiguity(megaTag2Estimation);
+        boolean tagCountOk = hasEstimate && (poseEstimate.tagCount >= Constants.Vision.minVisionTagCountForMegatag);
+        boolean avgDistOk = hasEstimate && (poseEstimate.avgTagDist <= Constants.Vision.maxVisionAvgTagDistMeters);
+        boolean avgAreaOk = hasEstimate && (poseEstimate.avgTagArea >= Constants.Vision.minVisionAvgTagArea);
+        boolean ambiguityOk = hasEstimate && hasAcceptableFiducialAmbiguity(poseEstimate);
         boolean acceptVisionFrame = hasEstimate && validTargets && spinRateOk && tagCountOk && avgDistOk && avgAreaOk && ambiguityOk;
 
-        Logger.recordOutput("Vision/MegaTag2/Accepted", acceptVisionFrame);
-        Logger.recordOutput("Vision/MegaTag2/HasEstimate", hasEstimate);
-        Logger.recordOutput("Vision/MegaTag2/ValidTargets", validTargets);
-        Logger.recordOutput("Vision/MegaTag2/TagCountOk", tagCountOk);
-        Logger.recordOutput("Vision/MegaTag2/AvgDistOk", avgDistOk);
-        Logger.recordOutput("Vision/MegaTag2/AvgAreaOk", avgAreaOk);
-        Logger.recordOutput("Vision/MegaTag2/TagCount", hasEstimate ? megaTag2Estimation.tagCount : -1);
-        Logger.recordOutput("Vision/MegaTag2/AvgTagDistMeters", hasEstimate ? megaTag2Estimation.avgTagDist : -1);
-        Logger.recordOutput("Vision/MegaTag2/AvgTagArea", hasEstimate ? megaTag2Estimation.avgTagArea : -1);
-        Logger.recordOutput("Vision/MegaTag2/SpinRateOk", spinRateOk);
-        Logger.recordOutput("Vision/MegaTag2/AmbiguityOk", ambiguityOk);
+        Logger.recordOutput("Vision/MegaTag1/Accepted", acceptVisionFrame);
+        Logger.recordOutput("Vision/MegaTag1/HasEstimate", hasEstimate);
+        Logger.recordOutput("Vision/MegaTag1/ValidTargets", validTargets);
+        Logger.recordOutput("Vision/MegaTag1/TagCountOk", tagCountOk);
+        Logger.recordOutput("Vision/MegaTag1/AvgDistOk", avgDistOk);
+        Logger.recordOutput("Vision/MegaTag1/AvgAreaOk", avgAreaOk);
+        Logger.recordOutput("Vision/MegaTag1/TagCount", hasEstimate ? poseEstimate.tagCount : -1);
+        Logger.recordOutput("Vision/MegaTag1/AvgTagDistMeters", hasEstimate ? poseEstimate.avgTagDist : -1);
+        Logger.recordOutput("Vision/MegaTag1/AvgTagArea", hasEstimate ? poseEstimate.avgTagArea : -1);
+        Logger.recordOutput("Vision/MegaTag1/SpinRateOk", spinRateOk);
+        Logger.recordOutput("Vision/MegaTag1/AmbiguityOk", ambiguityOk);
 
         if (acceptVisionFrame) {
-            double xyStdDev = computeVisionXYStdDev(megaTag2Estimation);
+            double xyStdDev = computeVisionXYStdDev(poseEstimate);
             swervePoseEstimator.setVisionMeasurementStdDevs(
                 VecBuilder.fill(xyStdDev, xyStdDev, Units.degreesToRadians(Constants.Vision.visionStdDevYawDegrees))
             );
-            swervePoseEstimator.addVisionMeasurement(megaTag2Estimation.pose, megaTag2Estimation.timestampSeconds);
-            Logger.recordOutput("Vision/MegaTag2/XYStdDev", xyStdDev);
+            swervePoseEstimator.addVisionMeasurement(poseEstimate.pose, poseEstimate.timestampSeconds);
+            Logger.recordOutput("Vision/MegaTag1/XYStdDev", xyStdDev);
         }
     }
 

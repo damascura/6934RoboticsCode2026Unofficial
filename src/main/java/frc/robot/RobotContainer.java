@@ -84,7 +84,9 @@ public class RobotContainer {
         elasticAutoOptionsPublisher = elasticTable.getStringArrayTopic("Auto/Options").publish();
 
         List<String> autoOptions = loadElasticAutoOptions();
-        String defaultAuto = autoOptions.contains("RHubShoot") ? "RHubShoot" : "BNzbInBShBC1BNzbInBShBC2BNzbInC3";
+        String defaultAuto = autoOptions.contains("ShootThenLoad")
+            ? "ShootThenLoad"
+            : (autoOptions.contains("RHubShoot") ? "RHubShoot" : "BNzbInBShBC1BNzbInBShBC2BNzbInC3");
         autoChooser.setDefaultOption(defaultAuto, defaultAuto);
         for (String autoName : autoOptions) {
             if (!defaultAuto.equals(autoName)) {
@@ -172,6 +174,7 @@ public class RobotContainer {
     private List<String> loadElasticAutoOptions() {
         List<String> autos = new ArrayList<>();
         autos.add("DoNothing");
+        autos.add("ShootThenLoad");
 
         Path autosDir = Filesystem.getDeployDirectory().toPath().resolve("pathplanner").resolve("autos");
         try {
@@ -235,6 +238,9 @@ public class RobotContainer {
         if ("DoNothing".equals(selectedAuto)) {
             return null;
         }
+        if ("ShootThenLoad".equals(selectedAuto)) {
+            return buildShootThenLoadAuto();
+        }
 
         try {
             return new PathPlannerAuto(selectedAuto);
@@ -242,5 +248,19 @@ public class RobotContainer {
             Logger.recordOutput("Elastic/Auto/LoadError", "Failed to load auto: " + selectedAuto);
             return null;
         }
+    }
+
+    private Command buildShootThenLoadAuto() {
+        Command spinUp = new Shoot(s_Shooter);
+        if (Constants.AutoConstants.shooterSpinupSeconds > 0.0) {
+            spinUp = spinUp.withTimeout(Constants.AutoConstants.shooterSpinupSeconds);
+        }
+        return Commands.sequence(
+            spinUp,
+            Commands.parallel(
+                new Shoot(s_Shooter),
+                new Load(s_Loader)
+            )
+        );
     }
 }

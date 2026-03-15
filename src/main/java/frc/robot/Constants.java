@@ -48,7 +48,7 @@ public final class Constants {
         public static final CANBus canBusRef = new CANBus(canBus);
         public static final boolean followerOpposesLeader = false;
 
-        public static final double targetRPS = 48.33; // 2700 RPM
+        public static final double targetRPS = 42; // 2820 RPM
 
         public static final double kP = 0.18;
         public static final double kI = 0.0;
@@ -186,7 +186,7 @@ public final class Constants {
         public static final double hubAlignBlueY = 4.034;
         public static final double hubAlignRedX = 11.911;
         public static final double hubAlignRedY = 4.034;
-        public static final double hubAlignGoalDistanceMeters = 1.5;
+        public static final double hubAlignGoalDistanceMeters = 4;
         public static final double hubAlignDistanceToleranceMeters = 0.08;
         public static final double hubAlignkP = 1.0;
         public static final double hubAlignYawkP = 3.0;
@@ -201,9 +201,9 @@ public final class Constants {
         public static final double minVisionAvgTagArea = 0.0;
         public static final double maxVisionFiducialAmbiguity = 0.7;
 
-        public static final double visionStdDevXYMin = 0.15;
-        public static final double visionStdDevXYMax = 2.0;
-        public static final double visionStdDevYawDegrees = 6.0;
+        public static final double visionStdDevXYMin = 0.08;
+        public static final double visionStdDevXYMax = 1.0;
+        public static final double visionStdDevYawDegrees = 3.0;
 
 
         /* AprilTag Game Field Layout Loading */
@@ -333,5 +333,7 @@ public final class Constants {
             new PIDConstants(5.0, 0.0, 0.0), // translation PID constants
             new PIDConstants(5.0, 0.0, 0.0)
         );
+
+        public static final double shooterSpinupSeconds = 1.0;
     }
 }

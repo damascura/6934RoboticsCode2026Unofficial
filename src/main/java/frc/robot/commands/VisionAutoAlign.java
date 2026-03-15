@@ -1,14 +1,10 @@
 package frc.robot.commands;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathConstraints;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants;
 import frc.robot.Constants.Vision;
 import frc.robot.VisionInfo;
@@ -17,12 +13,11 @@ import java.util.function.BooleanSupplier;
 
 public class VisionAutoAlign extends Command {
     private static int activeCommandCount = 0;
+    private static final double yawToleranceDegrees = 4.0;
 
     private final Swerve s_Swerve;
     private final BooleanSupplier keepRunning;
-    private Command pathCommand;
-    private Pose2d lastTargetPose;
-    private double lastReplanTimestamp;
+    private boolean withinYawTolerance = false;
 
     public VisionAutoAlign(Swerve s_Swerve) {
         this(s_Swerve, () -> true);
@@ -41,32 +36,47 @@ public class VisionAutoAlign extends Command {
     public void initialize() {
         activeCommandCount++;
         VisionInfo.setAprilTagPipeline();
-        lastTargetPose = null;
-        lastReplanTimestamp = Timer.getFPGATimestamp() - Vision.autoAlignReplanPeriodSeconds;
-        schedulePathToTarget();
+        withinYawTolerance = false;
     }
 
     @Override
     public void execute() {
         if (!keepRunning.getAsBoolean()) {
-            cancelPath();
+            stopDrive();
             return;
         }
 
-        if (shouldReplan()) {
-            schedulePathToTarget();
+        Pose2d pose = s_Swerve.getSwervePoseEstimation();
+        Translation2d hubPosition = getAllianceHubPosition();
+        Translation2d toHub = hubPosition.minus(pose.getTranslation());
+        if (toHub.getNorm() < 1e-6) {
+            stopDrive();
+            return;
         }
+
+        double desiredYaw = Math.atan2(toHub.getY(), toHub.getX());
+        double yawError = MathUtil.angleModulus(desiredYaw - pose.getRotation().getRadians());
+        withinYawTolerance = Math.abs(Math.toDegrees(yawError)) <= yawToleranceDegrees;
+        if (withinYawTolerance) {
+            stopDrive();
+            return;
+        }
+        double yawRate = yawError * Vision.autoAlignYawkP;
+        double maxYawRate = Constants.Swerve.maxAngularVelocity * Vision.autoAlignMaxYawPercent;
+        yawRate = MathUtil.clamp(yawRate, -maxYawRate, maxYawRate);
+
+        s_Swerve.drive(new Translation2d(), yawRate, true, true);
     }
 
     @Override
     public void end(boolean interrupted) {
         activeCommandCount = Math.max(0, activeCommandCount - 1);
-        cancelPath();
+        stopDrive();
     }
 
     @Override
     public boolean isFinished() {
-        return !keepRunning.getAsBoolean();
+        return !keepRunning.getAsBoolean() || withinYawTolerance;
     }
 
     private Translation2d getAllianceHubPosition() {
@@ -77,56 +87,7 @@ public class VisionAutoAlign extends Command {
         return new Translation2d(Vision.hubAlignBlueX, Vision.hubAlignBlueY);
     }
 
-    private Pose2d getHubAlignTargetPose() {
-        Pose2d pose = s_Swerve.getSwervePoseEstimation();
-        Translation2d hubPosition = getAllianceHubPosition();
-        Translation2d toHub = hubPosition.minus(pose.getTranslation());
-        double distanceToHub = toHub.getNorm();
-        if (distanceToHub < 1e-6) {
-            return new Pose2d(pose.getTranslation(), pose.getRotation());
-        }
-
-        Translation2d direction = toHub.times(1.0 / distanceToHub);
-        Translation2d targetTranslation = hubPosition.minus(direction.times(Vision.autoAlignGoalDistanceMeters));
-        Rotation2d targetRotation = Rotation2d.fromRadians(Math.atan2(toHub.getY(), toHub.getX()));
-        return new Pose2d(targetTranslation, targetRotation);
-    }
-
-    private void schedulePathToTarget() {
-        Pose2d targetPose = getHubAlignTargetPose();
-        PathConstraints constraints = new PathConstraints(
-            Constants.Swerve.maxSpeed * Vision.autoAlignMaxForwardPercent,
-            Constants.Swerve.maxSpeed * Vision.autoAlignMaxForwardPercent,
-            Constants.Swerve.maxAngularVelocity * Vision.autoAlignMaxYawPercent,
-            Constants.Swerve.maxAngularVelocity * Vision.autoAlignMaxYawPercent
-        );
-        cancelPath();
-        pathCommand = AutoBuilder.pathfindToPose(targetPose, constraints);
-        CommandScheduler.getInstance().schedule(pathCommand);
-        lastTargetPose = targetPose;
-        lastReplanTimestamp = Timer.getFPGATimestamp();
-    }
-
-    private boolean shouldReplan() {
-        if (lastTargetPose == null) {
-            return true;
-        }
-        double now = Timer.getFPGATimestamp();
-        if (now - lastReplanTimestamp < Vision.autoAlignReplanPeriodSeconds) {
-            return false;
-        }
-
-        Pose2d targetPose = getHubAlignTargetPose();
-        double distanceDelta = targetPose.getTranslation().getDistance(lastTargetPose.getTranslation());
-        double rotationDelta = Math.abs(targetPose.getRotation().minus(lastTargetPose.getRotation()).getDegrees());
-        return distanceDelta >= Vision.autoAlignReplanTranslationToleranceMeters
-            || rotationDelta >= Vision.autoAlignReplanRotationToleranceDegrees;
-    }
-
-    private void cancelPath() {
-        if (pathCommand != null) {
-            CommandScheduler.getInstance().cancel(pathCommand);
-            pathCommand = null;
-        }
+    private void stopDrive() {
+        s_Swerve.drive(new Translation2d(), 0.0, true, true);
     }
 }
