@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.BasicOperations;
 import frc.robot.Constants;
 import frc.robot.LimelightHelpers;
 import frc.robot.SwerveModule;
@@ -43,16 +42,12 @@ public class Swerve extends SubsystemBase {
     public Swerve() {
         gyro = new Pigeon2(Constants.Swerve.pigeonID, Constants.Swerve.canBus);
         gyro.getConfigurator().apply(new Pigeon2Configuration());
-        gyro.setYaw(180);
+        gyro.setYaw(0);
 
         speedMultiplier = 1;
 
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
-            startingPose = BasicOperations.transformBlueToRedAlliancePose(Constants.QuickTuning.selectedStartingPose);
-        } else {
-            startingPose = Constants.QuickTuning.selectedStartingPose;
-        }
+        // Keep all robot pose math in the WPILib blue-alliance field frame.
+        startingPose = Constants.QuickTuning.selectedStartingPose;
 
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -97,7 +92,13 @@ public class Swerve extends SubsystemBase {
                 config,
                 () -> {
                     var currentAlliance = DriverStation.getAlliance();
-                    return !currentAlliance.isPresent() || currentAlliance.get() == DriverStation.Alliance.Blue;
+                    if (!currentAlliance.isPresent()) {
+                        return Constants.AutoConstants.flipAutosWhenAllianceUnknown;
+                    }
+                    if (currentAlliance.get() == DriverStation.Alliance.Red) {
+                        return Constants.AutoConstants.flipAutosOnRedAlliance;
+                    }
+                    return Constants.AutoConstants.flipAutosOnBlueAlliance;
                 },
                 this
             );
@@ -258,13 +259,8 @@ public class Swerve extends SubsystemBase {
             rollRateDegreesPerSecond
         );
 
-        LimelightHelpers.PoseEstimate poseEstimate;
-        var alliance = DriverStation.getAlliance();
-        if (alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red) {
-            poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiRed(Constants.Vision.limelightName);
-        } else {
-            poseEstimate = LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Vision.limelightName);
-        }
+        LimelightHelpers.PoseEstimate poseEstimate =
+            LimelightHelpers.getBotPoseEstimate_wpiBlue(Constants.Vision.limelightName);
 
         boolean hasEstimate = (poseEstimate != null) && (poseEstimate.pose != null);
         boolean validTargets = VisionInfo.hasValidTargets();
@@ -353,9 +349,11 @@ public class Swerve extends SubsystemBase {
         Logger.recordOutput("Swerve/States/Measured", getModuleStates());
         Logger.recordOutput("Swerve/Positions", getModulePositions());
         Logger.recordOutput("Swerve/Pose/Odometry", getPose());
-        Logger.recordOutput("Swerve/Pose/Estimated", getSwervePoseEstimation());
+        Pose2d estimatedPose = getSwervePoseEstimation();
+        Logger.recordOutput("Swerve/Pose/Estimated", estimatedPose);
+        Logger.recordOutput("Swerve/Pose/EstimatedBlue", estimatedPose);
         Logger.recordOutput("Swerve/Gyro/YawDegrees", getGyroYaw().getDegrees());
-        field2d.setRobotPose(getSwervePoseEstimation());
+        field2d.setRobotPose(estimatedPose);
 
         for (SwerveModule mod : mSwerveMods) {
             Logger.recordOutput("Swerve/Module" + mod.moduleNumber + "/CANcoderDegrees", mod.getCANcoder().getDegrees());

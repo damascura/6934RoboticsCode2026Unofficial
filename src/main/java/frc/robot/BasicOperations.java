@@ -137,4 +137,16 @@ public final class BasicOperations {
         double resultRotation = blueAlliancePose.getRotation().getDegrees() - 180;
         return new Pose2d(resultX, resultY, Rotation2d.fromDegrees(resultRotation));
     }
+
+    /**
+     * Flips a 2D pose value for the red alliance back to the blue alliance frame.
+     * @param redAlliancePose The 2D pose value for the red alliance that is to be flipped
+     * @return A Pose2D object representing the mirror 2D pose value in the blue alliance frame
+     */
+    public static Pose2d transformRedToBlueAlliancePose(Pose2d redAlliancePose) {
+        double resultX = Constants.Vision.fieldLayout.getFieldLength() - redAlliancePose.getX();
+        double resultY = Constants.Vision.fieldLayout.getFieldWidth() - redAlliancePose.getY();
+        double resultRotation = redAlliancePose.getRotation().getDegrees() + 180;
+        return new Pose2d(resultX, resultY, Rotation2d.fromDegrees(resultRotation));
+    }
 }

@@ -35,7 +35,7 @@ public final class Constants {
         public static final double driveSlowModeMultiplier = 0.2;
 
         /* Robot Starting Position */
-        public static final Pose2d selectedStartingPose = new Pose2d();
+        public static final Pose2d selectedStartingPose = new Pose2d(); // TODO: can be changed manually given a set of coordinates from PathPlanner
     }
     //#endregion
 
@@ -48,9 +48,9 @@ public final class Constants {
         public static final CANBus canBusRef = new CANBus(canBus);
         public static final boolean followerOpposesLeader = false;
 
-        public static final double targetRPS = 42; // 2820 RPM
+        public static final double targetRPS = 40.833; // 2450 RPM
 
-        public static final double kP = 0.18;
+        public static final double kP = 0.15;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double kV = 0.12;
@@ -65,7 +65,7 @@ public final class Constants {
         public static final String canBus = "";
         public static final CANBus canBusRef = new CANBus(canBus);
 
-        public static final double feederForwardVoltage = 6.0;
+        public static final double feederForwardVoltage = 10.0;
         public static final double conveyorForwardVoltage = 6.0;
         public static final double feederReverseVoltage = -2.0;
         public static final double conveyorReverseVoltage = -1.0;
@@ -84,7 +84,7 @@ public final class Constants {
         public static final double rollerVoltage = -6.0;
         public static final double rollerReverseVoltage = 6.0;
 
-        public static final double pivotUpAngleDegrees = -115.0;
+        public static final double pivotUpAngleDegrees = -130.0;
         public static final double pivotDownAngleDegrees = 0.0;
         public static final double pivotToleranceDegrees = 2.0;
         public static final double pivotMidOffsetDegrees = -50.0;
@@ -139,41 +139,9 @@ public final class Constants {
 
         /* Alignment Error Tolerances */
         public static final double TXTolerance = 1; // Degrees
-        public static final double TYTolerance = 1; // Degrees
-        public static final double poseTolerance = 1; // Degrees
 
         /* Auto Align */
         public static final int aprilTagPipeline = 0;
-
-        public static final double autoAlignGoalDistanceMeters = 0.8;
-        public static final double autoAlignDistanceToleranceMeters = 0.08;
-        public static final double autoAlignYawToleranceDegrees = 4.0;
-
-        public static final double autoAlignForwardkP = 0.9;
-        public static final double autoAlignForwardkI = 0.01;
-        public static final double autoAlignForwardkD = 0.01;
-
-        public static final double autoAlignStrafekP = 0.035;
-        public static final double autoAlignStrafekI = 0.001;
-        public static final double autoAlignStrafekD = 0.001;
-
-        public static final double autoAlignYawkP = 0.008;
-        public static final double autoAlignYawkI = 0.0;
-        public static final double autoAlignYawkD = 0.0;
-
-        public static final double autoAlignMaxForwardPercent = 0.75;
-        public static final double autoAlignMaxStrafePercent = 0.75;
-        public static final double autoAlignMaxYawPercent = 0.2;
-        public static final double autoAlignMinForwardPercent = 0.12;
-        public static final double autoAlignMinStrafePercent = 0.04;
-
-        public static final double autoAlignReplanPeriodSeconds = 0.25;
-        public static final double autoAlignReplanTranslationToleranceMeters = 0.15;
-        public static final double autoAlignReplanRotationToleranceDegrees = 5.0;
-
-        public static final double autoAlignForwardDirection = -1.0;
-        public static final double autoAlignStrafeDirection = 1.0;
-        public static final double autoAlignYawDirection = 1.0;
 
         public static final double autoAlignCenterOffsetX = 0.0;
         public static final double autoAlignLeftOffsetX = -0.16;
@@ -181,18 +149,20 @@ public final class Constants {
         public static final double autoAlignOffsetY = 0.0;
         public static final double autoAlignOffsetZ = 0.0;
 
-        public static final int[] hubAlignTagIds = {25, 26, 9, 10};
         public static final double hubAlignBlueX = 4.634;
         public static final double hubAlignBlueY = 4.034;
         public static final double hubAlignRedX = 11.911;
         public static final double hubAlignRedY = 4.034;
-        public static final double hubAlignGoalDistanceMeters = 4;
-        public static final double hubAlignDistanceToleranceMeters = 0.08;
-        public static final double hubAlignkP = 1.0;
+        public static final double hubAlignGoalDistanceMeters = 2.5;
+        public static final double hubAlignDistanceToleranceMeters = 0.05;
+        public static final double hubAlignYawToleranceDegrees = 3.5;
+        public static final double hubAlignkP = 1.4;
         public static final double hubAlignYawkP = 3.0;
-        public static final double hubAlignMaxSpeedMetersPerSecond = 2.0;
-        public static final double hubAlignMaxYawRadiansPerSecond = 2.5;
-        public static final double hubAlignMinSpeedMetersPerSecond = 0.1;
+        public static final double hubAlignMaxSpeedMetersPerSecond = 2.5;
+        public static final double hubAlignMaxAccelerationMetersPerSecondSq = 3.5;
+        public static final double hubAlignMaxYawRadiansPerSecond = 3;
+        public static final double hubAlignMaxYawAccelerationRadiansPerSecondSq = 8.0;
+        public static final double hubAlignMinSpeedMetersPerSecond = 0.2;
 
 
         public static final double maxVisionYawRateForMegatag = 540.0;
@@ -201,9 +171,9 @@ public final class Constants {
         public static final double minVisionAvgTagArea = 0.0;
         public static final double maxVisionFiducialAmbiguity = 0.7;
 
-        public static final double visionStdDevXYMin = 0.08;
-        public static final double visionStdDevXYMax = 1.0;
-        public static final double visionStdDevYawDegrees = 3.0;
+        public static final double visionStdDevXYMin = 0.15;
+        public static final double visionStdDevXYMax = 2.0;
+        public static final double visionStdDevYawDegrees = 6.0;
 
 
         /* AprilTag Game Field Layout Loading */
@@ -276,7 +246,7 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = 5;
+        public static final double maxSpeed = 4;
         /** Radians per Second */
         public static final double maxAngularVelocity =  3 * Math.PI;
 
@@ -329,11 +299,15 @@ public final class Constants {
     public static final class AutoConstants {
         public static final double maxModuleSpeed = 4.5; // max module speed, in m/s
         public static final double driveBaseRadius = (Swerve.robotSideLength / 2) * Math.sqrt(2);
+        public static final double shooterSpinupSeconds = 2;
+        public static final String forcedAutoName = ""; // Set "" to use chooser
+        // PathPlanner alliance flip behavior (set exactly one of red/blue true in normal use).
+        public static final boolean flipAutosOnRedAlliance = true;
+        public static final boolean flipAutosOnBlueAlliance = false;
+        public static final boolean flipAutosWhenAllianceUnknown = false;
         public static final PPHolonomicDriveController pathPlannerConfig = new PPHolonomicDriveController(
             new PIDConstants(5.0, 0.0, 0.0), // translation PID constants
             new PIDConstants(5.0, 0.0, 0.0)
         );
-
-        public static final double shooterSpinupSeconds = 1.0;
     }
 }

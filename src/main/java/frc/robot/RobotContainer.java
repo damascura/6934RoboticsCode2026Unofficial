@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.EventTrigger;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -73,12 +74,21 @@ public class RobotContainer {
     private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
     /* Subsystems */
-    private final Swerve s_Swerve = new Swerve();
-    private final ShooterSubsys s_Shooter = new ShooterSubsys();
-    private final Loader s_Loader = new Loader();
-    private final Intake s_Intake = new Intake();
+    /* */
+    private final Swerve s_Swerve;
+    private final ShooterSubsys s_Shooter;
+    private final Loader s_Loader;
+    private final Intake s_Intake;
 
     public RobotContainer() {
+        s_Swerve = new Swerve();
+        s_Shooter = new ShooterSubsys();
+        s_Loader = new Loader();
+        s_Intake = new Intake();
+
+        registerNamedCommands();
+        registerPathEventTriggers();
+
         NetworkTable elasticTable = NetworkTableInstance.getDefault().getTable("Elastic");
         elasticSelectedAutoEntry = elasticTable.getStringTopic("Auto/Selected").getEntry("");
         elasticAutoOptionsPublisher = elasticTable.getStringArrayTopic("Auto/Options").publish();
@@ -100,8 +110,6 @@ public class RobotContainer {
         }
 
         elasticHubAutoAlign = new NetworkButton(elasticTable, "Commands/HubAutoAlign");
-
-        registerNamedCommands();
 
         s_Swerve.setDefaultCommand(
             new TeleopSwerve(
@@ -138,6 +146,25 @@ public class RobotContainer {
         NamedCommands.registerCommand("Raise Intake", new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotUpAngleDegrees));
         NamedCommands.registerCommand("Hub Auto Align", new VisionAutoAlign(s_Swerve));
         NamedCommands.registerCommand("Partial Intake", new MoveIntakePivotTo(s_Intake, midPivotAngle));
+    }
+
+    private void registerPathEventTriggers() {
+        // Backward compatibility for paths using marker names with "command": null.
+        new EventTrigger("Load").whileTrue(new Load(s_Loader));
+        new EventTrigger("Shoot").whileTrue(new Shoot(s_Shooter));
+        new EventTrigger("Run Intake Rollers").whileTrue(new RunIntakeRollers(s_Intake));
+        new EventTrigger("Lower Intake").whileTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotDownAngleDegrees));
+        new EventTrigger("Raise Intake").whileTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotUpAngleDegrees));
+
+        double minPivotAngle = Math.min(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
+        double maxPivotAngle = Math.max(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
+        double midPivotAngle = MathUtil.clamp(
+            Constants.Intake.pivotDownAngleDegrees + Constants.Intake.pivotMidOffsetDegrees,
+            minPivotAngle,
+            maxPivotAngle
+        );
+        new EventTrigger("Partial Intake").whileTrue(new MoveIntakePivotTo(s_Intake, midPivotAngle));
+        new EventTrigger("Hub Auto Align").whileTrue(new VisionAutoAlign(s_Swerve));
     }
 
     private void registerStatusSendables() {
@@ -225,13 +252,16 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         s_Swerve.setSpeedMultiplier(1);
-        String selectedAuto = elasticSelectedAutoEntry.get();
-        if (selectedAuto == null || selectedAuto.isEmpty()) {
+        String selectedAuto = Constants.AutoConstants.forcedAutoName;
+        if (selectedAuto == null || selectedAuto.isBlank()) {
             selectedAuto = autoChooser.getSelected();
+            if (selectedAuto == null || selectedAuto.isEmpty()) {
+                selectedAuto = elasticSelectedAutoEntry.get();
+            }
         }
         if (selectedAuto == null || selectedAuto.isEmpty()) {
             selectedAuto = "DoNothing";
-        }
+        } 
         elasticSelectedAutoEntry.set(selectedAuto);
         Logger.recordOutput("Elastic/Auto/Selected", selectedAuto);
 
