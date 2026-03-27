@@ -1,9 +1,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -11,6 +14,7 @@ import frc.robot.Robot;
 public class Intake extends SubsystemBase {
     private final TalonFX pivotMotor;
     private final TalonFX rollerMotor;
+    private final CANcoder pivotEncoder;
     private final VoltageOut pivotVoltageRequest = new VoltageOut(0);
     private final VoltageOut rollerVoltageRequest = new VoltageOut(0);
 
@@ -27,16 +31,16 @@ public class Intake extends SubsystemBase {
     private double pivotGoalDegrees = Constants.Intake.pivotUpAngleDegrees;
     private double manualPercent = 0.0;
     private boolean profileEnabled = false;
+    private boolean holdingInsideBacklash = false;
 
     public Intake() {
         pivotMotor = new TalonFX(Constants.Intake.pivotMotorID, Constants.Intake.canBusRef);
         rollerMotor = new TalonFX(Constants.Intake.rollerMotorID, Constants.Intake.canBusRef);
+        pivotEncoder = new CANcoder(Constants.Intake.pivotCanCoderID, Constants.Intake.canBusRef);
 
         pivotMotor.getConfigurator().apply(Robot.ctreConfigs.intakePivotConfig);
         rollerMotor.getConfigurator().apply(Robot.ctreConfigs.intakeRollerConfig);
-
-        // Assume we start at the up position on boot
-        pivotMotor.setPosition(degreesToPivotRotations(Constants.Intake.pivotUpAngleDegrees));
+        pivotEncoder.getConfigurator().apply(Robot.ctreConfigs.intakePivotCANcoderConfig);
 
         pivotController.setTolerance(Constants.Intake.pivotToleranceDegrees);
         pivotController.reset(getPivotAngleDegrees());
@@ -55,6 +59,7 @@ public class Intake extends SubsystemBase {
 
     public void startProfileTo(double targetDegrees) {
         profileEnabled = true;
+        holdingInsideBacklash = false;
         pivotGoalDegrees = targetDegrees;
         pivotController.reset(getPivotAngleDegrees());
         pivotController.setGoal(pivotGoalDegrees);
@@ -67,6 +72,7 @@ public class Intake extends SubsystemBase {
 
     public void disableProfileHold() {
         profileEnabled = false;
+        holdingInsideBacklash = false;
         double currentDegrees = getPivotAngleDegrees();
         pivotGoalDegrees = currentDegrees;
         pivotController.reset(currentDegrees);
@@ -96,7 +102,12 @@ public class Intake extends SubsystemBase {
     }
 
     public double getPivotAngleDegrees() {
-        return pivotMotor.getPosition().getValueAsDouble() * 360.0;
+        double relativeDegrees = getPivotAbsoluteDegrees() - Constants.Intake.pivotCanCoderZeroOffsetDegrees;
+        return MathUtil.inputModulus(relativeDegrees, -180.0, 180.0);
+    }
+
+    public double getPivotAbsoluteDegrees() {
+        return pivotEncoder.getAbsolutePosition().getValueAsDouble() * 360.0;
     }
 
     public void runRollers() {
@@ -113,9 +124,14 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
+        double currentDegrees = getPivotAngleDegrees();
+        SmartDashboard.putNumber("Intake/Pivot/CANcoderAbsDeg", getPivotAbsoluteDegrees());
+        SmartDashboard.putNumber("Intake/Pivot/AngleDeg", currentDegrees);
+        SmartDashboard.putNumber("Intake/Pivot/GoalDeg", pivotGoalDegrees);
+        SmartDashboard.putBoolean("Intake/Pivot/ProfileEnabled", profileEnabled);
+
         double manualInput = applyDeadband(manualPercent, Constants.Intake.pivotManualDeadband);
         if (Math.abs(manualInput) > 1e-6) {
-            double currentDegrees = getPivotAngleDegrees();
             double requestedVolts = manualInput * Constants.Intake.pivotManualMaxVoltage;
             double minDegrees = Math.min(Constants.Intake.pivotUpAngleDegrees, Constants.Intake.pivotDownAngleDegrees);
             double maxDegrees = Math.max(Constants.Intake.pivotUpAngleDegrees, Constants.Intake.pivotDownAngleDegrees);
@@ -126,6 +142,7 @@ public class Intake extends SubsystemBase {
             }
 
             profileEnabled = false;
+            holdingInsideBacklash = false;
             pivotGoalDegrees = currentDegrees;
             pivotController.reset(currentDegrees);
             pivotController.setGoal(currentDegrees);
@@ -133,12 +150,34 @@ public class Intake extends SubsystemBase {
             return;
         }
 
-        double outputVolts = pivotController.calculate(getPivotAngleDegrees());
+        double positionErrorDegrees = pivotGoalDegrees - currentDegrees;
+        if (!profileEnabled) {
+            double absError = Math.abs(positionErrorDegrees);
+            if (holdingInsideBacklash) {
+                if (absError >= Constants.Intake.pivotHoldBacklashExitDegrees) {
+                    holdingInsideBacklash = false;
+                }
+            } else if (absError <= Constants.Intake.pivotHoldBacklashEnterDegrees) {
+                holdingInsideBacklash = true;
+            }
+
+            if (holdingInsideBacklash) {
+                pivotController.reset(currentDegrees);
+                pivotMotor.setControl(pivotVoltageRequest.withOutput(0.0));
+                SmartDashboard.putBoolean("Intake/Pivot/HoldInsideBacklash", true);
+                SmartDashboard.putNumber("Intake/Pivot/ErrorDeg", positionErrorDegrees);
+                return;
+            }
+        }
+
+        double outputVolts = pivotController.calculate(currentDegrees);
         double maxVoltage = profileEnabled
             ? Constants.Intake.pivotMaxVoltage
             : Constants.Intake.pivotHoldMaxVoltage;
         outputVolts = Math.max(-maxVoltage, Math.min(maxVoltage, outputVolts));
         pivotMotor.setControl(pivotVoltageRequest.withOutput(outputVolts));
+        SmartDashboard.putBoolean("Intake/Pivot/HoldInsideBacklash", false);
+        SmartDashboard.putNumber("Intake/Pivot/ErrorDeg", positionErrorDegrees);
     }
 
     private double applyDeadband(double value, double deadband) {
@@ -148,7 +187,4 @@ public class Intake extends SubsystemBase {
         return value;
     }
 
-    private double degreesToPivotRotations(double degrees) {
-        return degrees / 360.0;
-    }
 }

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.75445945945946,
-        "y": 2.839966216216217
+        "x": 3.57,
+        "y": 4.034
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.75445945945946,
-        "y": 2.839966216216217
+        "x": 3.3130430038757677,
+        "y": 2.074461949620947
       },
       "isLocked": false,
-      "linkedName": "Right Shoot"
+      "linkedName": "Hub Start"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 3.4081531531531533,
+        "y": 2.518918
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 6.0
+        "x": 3.4566791465560227,
+        "y": 2.7920272584080075
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Right Bump Alliance Side"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 135.0
   },
   "reversed": false,
-  "folder": "Center Shooting Positions",
+  "folder": "Hub",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 33.47276472650425
+    "velocity": 0.0,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

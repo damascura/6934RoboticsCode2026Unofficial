@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.75445945945946,
-        "y": 2.839966216216217
+        "x": 3.57,
+        "y": 7.4350372
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.75445945945946,
-        "y": 2.839966216216217
+        "x": 2.5297522522522526,
+        "y": 7.43625
       },
       "isLocked": false,
-      "linkedName": "Right Shoot"
+      "linkedName": "Left Trench Alliance Side"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 3.4081531531531533,
+        "y": 5.5503572
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 6.0
+        "x": 2.5706081081081082,
+        "y": 5.546666666666668
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Left Bump Alliance Side"
     }
   ],
   "rotationTargets": [],
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 0.0
+    "velocity": 2.5,
+    "rotation": -135.0
   },
   "reversed": false,
-  "folder": "Center Shooting Positions",
+  "folder": "Left Trench",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": 33.47276472650425
+    "velocity": 2.5,
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

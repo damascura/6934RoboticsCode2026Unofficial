@@ -3,35 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.75445945945946,
-        "y": 2.839966216216217
+        "x": 3.57,
+        "y": 4.034
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.75445945945946,
-        "y": 2.839966216216217
+        "x": 3.9555717372478147,
+        "y": 3.737014536115281
       },
       "isLocked": false,
-      "linkedName": "Right Shoot"
+      "linkedName": "Hub Start"
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 6.0
+        "x": 1.1508671171171176,
+        "y": 5.96543918918919
       },
       "prevControl": {
-        "x": 3.0,
-        "y": 6.0
+        "x": 0.9450783164237085,
+        "y": 6.1256086932166545
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Depot Ready"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Lower Intake",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.5,
     "maxAcceleration": 3.5,
@@ -45,10 +52,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Center Shooting Positions",
+  "folder": "Hub",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 33.47276472650425
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }

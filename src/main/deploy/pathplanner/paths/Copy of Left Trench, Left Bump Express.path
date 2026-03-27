@@ -1,0 +1,114 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.57,
+        "y": 7.4350372
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.5297522522522526,
+        "y": 7.43625
+      },
+      "isLocked": false,
+      "linkedName": "Left Trench Alliance Side"
+    },
+    {
+      "anchor": {
+        "x": 3.4490090090090093,
+        "y": 6.118648648648649
+      },
+      "prevControl": {
+        "x": 3.2038738738738743,
+        "y": 6.547635135135136
+      },
+      "nextControl": {
+        "x": 3.6941441441441443,
+        "y": 5.689662162162162
+      },
+      "isLocked": false,
+      "linkedName": "Left Trench Shoot"
+    },
+    {
+      "anchor": {
+        "x": 3.57,
+        "y": 7.4350372
+      },
+      "prevControl": {
+        "x": 2.5501801801801802,
+        "y": 7.426036036036035
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Left Trench Alliance Side"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.6983842010771993,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 0.25,
+        "maxAcceleration": 3.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 4.634,
+        "y": 4.034
+      },
+      "rotationOffset": 0.0,
+      "minWaypointRelativePos": 0.588868940754039,
+      "maxWaypointRelativePos": 1.0,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    },
+    {
+      "name": "Load",
+      "waypointRelativePos": 0.6140035906642731,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "Partial Intake",
+      "waypointRelativePos": 0.8509874326750431,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.5,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Left Trench",
+  "idealStartingState": {
+    "velocity": 2.5,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

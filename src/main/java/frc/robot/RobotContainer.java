@@ -153,8 +153,9 @@ public class RobotContainer {
         new EventTrigger("Load").whileTrue(new Load(s_Loader));
         new EventTrigger("Shoot").whileTrue(new Shoot(s_Shooter));
         new EventTrigger("Run Intake Rollers").whileTrue(new RunIntakeRollers(s_Intake));
-        new EventTrigger("Lower Intake").whileTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotDownAngleDegrees));
-        new EventTrigger("Raise Intake").whileTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotUpAngleDegrees));
+        // Pivot moves need to complete after a single trigger pulse, so use onTrue instead of whileTrue.
+        new EventTrigger("Lower Intake").onTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotDownAngleDegrees));
+        new EventTrigger("Raise Intake").onTrue(new MoveIntakePivotTo(s_Intake, Constants.Intake.pivotUpAngleDegrees));
 
         double minPivotAngle = Math.min(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
         double maxPivotAngle = Math.max(Constants.Intake.pivotDownAngleDegrees, Constants.Intake.pivotUpAngleDegrees);
@@ -163,7 +164,7 @@ public class RobotContainer {
             minPivotAngle,
             maxPivotAngle
         );
-        new EventTrigger("Partial Intake").whileTrue(new MoveIntakePivotTo(s_Intake, midPivotAngle));
+        new EventTrigger("Partial Intake").onTrue(new MoveIntakePivotTo(s_Intake, midPivotAngle));
         new EventTrigger("Hub Auto Align").whileTrue(new VisionAutoAlign(s_Swerve));
     }
 

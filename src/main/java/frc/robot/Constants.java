@@ -32,7 +32,7 @@ public final class Constants {
         public static final double driveStickDeadband = 0.1;
         public static final double weaponStickDeadband = 0.1;
 
-        public static final double driveSlowModeMultiplier = 0.2;
+        public static final double driveSlowModeMultiplier = 0.3; //0.2 initially; adjusted for the big Daveed to 0.4
 
         /* Robot Starting Position */
         public static final Pose2d selectedStartingPose = new Pose2d(); // TODO: can be changed manually given a set of coordinates from PathPlanner
@@ -79,24 +79,30 @@ public final class Constants {
     public static final class Intake {
         public static final int pivotMotorID = 13;
         public static final int rollerMotorID = 14;
+        public static final int pivotCanCoderID = 5;
         public static final String canBus = "";
         public static final CANBus canBusRef = new CANBus(canBus);
-        public static final double rollerVoltage = -6.0;
-        public static final double rollerReverseVoltage = 6.0;
+        public static final double rollerVoltage = -4.8;
+        public static final double rollerReverseVoltage = 4.8;
 
-        public static final double pivotUpAngleDegrees = -130.0;
+        public static final double pivotUpAngleDegrees = -135;
         public static final double pivotDownAngleDegrees = 0.0;
         public static final double pivotToleranceDegrees = 2.0;
-        public static final double pivotMidOffsetDegrees = -50.0;
+        public static final double pivotMidOffsetDegrees = -60.0;
 
-        // Total motor rotations per pivot rotation: 125:1 gearbox and 6:5 pulley ratio => 125 * (6/5) = 150
-        public static final double pivotMotorToPivotRatio = 150.0;
+        // CANcoder absolute angle (in degrees) that corresponds to the intake being at pivotDownAngleDegrees.
+        // Tune this after mounting/calibrating the throughbore encoder.
+        public static final double pivotCanCoderZeroOffsetDegrees = ((0.2 * 360) + 135);
+        public static final SensorDirectionValue pivotCanCoderDirection = SensorDirectionValue.CounterClockwise_Positive;
         public static final double pivotProfileMaxVelocityDegPerSec = 360;
         public static final double pivotProfileMaxAccelerationDegPerSecSq = 720;
         public static final double pivotMaxVoltage = 10.0;
         public static final double pivotHoldMaxVoltage = 10.0;
         public static final double pivotManualMaxVoltage = 7.0;
         public static final double pivotManualDeadband = QuickTuning.weaponStickDeadband;
+        public static final double pivotBacklashDegrees = 0.0;
+        public static final double pivotHoldBacklashEnterDegrees = pivotBacklashDegrees / 2.0;
+        public static final double pivotHoldBacklashExitDegrees = pivotHoldBacklashEnterDegrees + 2.0;
 
         // PID output is treated as volts
         public static final double pivotkP = 0.15;
@@ -153,7 +159,7 @@ public final class Constants {
         public static final double hubAlignBlueY = 4.034;
         public static final double hubAlignRedX = 11.911;
         public static final double hubAlignRedY = 4.034;
-        public static final double hubAlignGoalDistanceMeters = 2.5;
+        public static final double hubAlignGoalDistanceMeters = 2.3;
         public static final double hubAlignDistanceToleranceMeters = 0.05;
         public static final double hubAlignYawToleranceDegrees = 3.5;
         public static final double hubAlignkP = 1.4;
@@ -297,7 +303,7 @@ public final class Constants {
     }
 
     public static final class AutoConstants {
-        public static final double maxModuleSpeed = 4.5; // max module speed, in m/s
+        public static final double maxModuleSpeed = 4; // max module speed, in m/s
         public static final double driveBaseRadius = (Swerve.robotSideLength / 2) * Math.sqrt(2);
         public static final double shooterSpinupSeconds = 2;
         public static final String forcedAutoName = ""; // Set "" to use chooser

@@ -1,0 +1,164 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.57,
+        "y": 7.4350372
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.57,
+        "y": 7.4350372
+      },
+      "isLocked": false,
+      "linkedName": "Left Trench Alliance Side"
+    },
+    {
+      "anchor": {
+        "x": 5.675653153153154,
+        "y": 7.4350372
+      },
+      "prevControl": {
+        "x": 4.675653153153154,
+        "y": 7.4350372
+      },
+      "nextControl": {
+        "x": 6.675653153153154,
+        "y": 7.4350372
+      },
+      "isLocked": false,
+      "linkedName": "Left Trench Neutral Side"
+    },
+    {
+      "anchor": {
+        "x": 7.7797297297297305,
+        "y": 6.782556306306307
+      },
+      "prevControl": {
+        "x": 7.787488089347298,
+        "y": 7.240299523742751
+      },
+      "nextControl": {
+        "x": 7.769515765765766,
+        "y": 6.179932432432432
+      },
+      "isLocked": false,
+      "linkedName": "Left Neutral Intake Start"
+    },
+    {
+      "anchor": {
+        "x": 7.7797297297297305,
+        "y": 4.515056306306307
+      },
+      "prevControl": {
+        "x": 7.7797297297297305,
+        "y": 6.026757479214156
+      },
+      "nextControl": {
+        "x": 7.7797297297297305,
+        "y": 4.024786036036036
+      },
+      "isLocked": false,
+      "linkedName": "Left Neutral Intake End"
+    },
+    {
+      "anchor": {
+        "x": 7.7797297297297305,
+        "y": 6.782556306306307
+      },
+      "prevControl": {
+        "x": 7.7797297297297305,
+        "y": 5.005326576576576
+      },
+      "nextControl": {
+        "x": 7.7797297297297305,
+        "y": 7.582556306306307
+      },
+      "isLocked": false,
+      "linkedName": "Left Neutral Intake Start"
+    },
+    {
+      "anchor": {
+        "x": 5.675653153153154,
+        "y": 7.4350372
+      },
+      "prevControl": {
+        "x": 6.237421171171171,
+        "y": 7.43625
+      },
+      "nextControl": {
+        "x": 5.219064608054092,
+        "y": 7.434051471781705
+      },
+      "isLocked": false,
+      "linkedName": "Left Trench Neutral Side"
+    },
+    {
+      "anchor": {
+        "x": 3.57,
+        "y": 7.4350372
+      },
+      "prevControl": {
+        "x": 4.797252252252076,
+        "y": 7.426036036031275
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Left Trench Alliance Side"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0031446540880504,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.9716981132075577,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 4.0,
+      "rotationDegrees": 90.0
+    },
+    {
+      "waypointRelativePos": 4.9999999999999805,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "Lower Intake",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.5,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Left Trench",
+  "idealStartingState": {
+    "velocity": 0.0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

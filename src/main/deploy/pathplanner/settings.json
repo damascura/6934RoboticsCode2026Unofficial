@@ -3,16 +3,25 @@
   "robotLength": 0.876,
   "holonomicMode": true,
   "pathFolders": [
-    "Bump Bottom",
-    "Bump Top",
-    "Hub"
+    "Center Shooting Positions",
+    "Depot",
+    "Hub",
+    "Left Trench",
+    "Neutral Zone Intake Ends",
+    "Neutral Zone Intake Start",
+    "Right Bump",
+    "Left Bump",
+    "Outpost",
+    "Right Trench"
   ],
   "autoFolders": [
     "Hub",
     "Left Bump",
+    "Right Trench",
+    "Left Trench",
     "Right Bump"
   ],
-  "defaultMaxVel": 3.75,
+  "defaultMaxVel": 2.5,
   "defaultMaxAccel": 3.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
