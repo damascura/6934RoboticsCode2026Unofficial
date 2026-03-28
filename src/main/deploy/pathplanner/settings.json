@@ -4,14 +4,10 @@
   "holonomicMode": true,
   "pathFolders": [
     "Center Shooting Positions",
-    "Depot",
     "Hub",
-    "Left Trench",
-    "Neutral Zone Intake Ends",
-    "Neutral Zone Intake Start",
-    "Right Bump",
     "Left Bump",
-    "Outpost",
+    "Left Trench",
+    "Right Bump",
     "Right Trench"
   ],
   "autoFolders": [

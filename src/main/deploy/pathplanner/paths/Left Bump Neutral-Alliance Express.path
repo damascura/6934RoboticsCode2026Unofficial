@@ -1,0 +1,70 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.777792792792793,
+        "y": 5.5503572
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.777792792792793,
+        "y": 5.5503572
+      },
+      "isLocked": false,
+      "linkedName": "Left Bump Neutral Side"
+    },
+    {
+      "anchor": {
+        "x": 4.634,
+        "y": 5.5503572
+      },
+      "prevControl": {
+        "x": 5.634,
+        "y": 5.5503572
+      },
+      "nextControl": {
+        "x": 3.6340000000000003,
+        "y": 5.5503572
+      },
+      "isLocked": false,
+      "linkedName": "Left Bump Apex"
+    },
+    {
+      "anchor": {
+        "x": 3.4081531531531533,
+        "y": 5.5503572
+      },
+      "prevControl": {
+        "x": 4.041571549741058,
+        "y": 5.5503572
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Left Bump Alliance Side"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 2.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 2.5,
+    "rotation": -135.0
+  },
+  "reversed": false,
+  "folder": "Left Bump",
+  "idealStartingState": {
+    "velocity": 2.5,
+    "rotation": -135.0
+  },
+  "useDefaultConstraints": true
+}

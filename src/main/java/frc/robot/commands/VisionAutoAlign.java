@@ -92,11 +92,12 @@ public class VisionAutoAlign extends Command {
         double radialSpeed = speedLimiter.calculate(radialSpeedTarget);
         double speedMultiplier = Math.max(1e-6, s_Swerve.getSpeedMultiplier());
 
-        Translation2d translationCommand = toHub.div(distanceToHub).times(radialSpeed / speedMultiplier);
+        Translation2d fieldRelativeTranslation = toHub.div(distanceToHub).times(radialSpeed / speedMultiplier);
+        Translation2d robotRelativeTranslation = fieldRelativeTranslation.rotateBy(robotPose.getRotation().unaryMinus());
         s_Swerve.drive(
-            translationCommand,
+            robotRelativeTranslation,
             yawCommand / speedMultiplier,
-            true,
+            false,
             true
         );
     }
